@@ -1,0 +1,479 @@
+
+La terminologÃ­a no tiene por quÃ© estar necesariamente bien
+
+-- C Level --
+
+
+
+Query C/1
+
+-The minimum, the average and the maximum number of recipes per user
+
+select min(u.recipes.size), avg(u.recipes.size), max(u.recipes.size) from User u;
+
+Busca en la tabla de usuarios los tamaños de las listas de recetas y busca el mínimo, el máximo
+y calcula la media
+
+1 objects found
+Object #0 = [Ljava.lang.Object;{
+	{0, 1.3333, 4}
+} 
+
+
+
+Query C/2
+
+-The user/s who has/have authored more recipes
+
+select u from User u where u.recipes.size = (select max(u.recipes.size) from User u);
+
+Busca en la tabla de usuarios la lista de recetas más grande y después la compara con todos los usuarios
+y devuelve el/los que tengan una lista de ese tamaño
+
+1 objects found
+Object #0 = domain.User{
+	id=13
+	version=0
+	name="Alberto"
+	surname="Bujalance"
+	email="albbujmun@alum.us.es"
+	phone="A123"
+	postalAddress="calle Virgilio Mattoni nº 37  1º IZQ"
+	userAccount=security.UserAccount@2
+	folders=[domain.Folder@1a, domain.Folder@25, domain.Folder@30, domain.Folder@3b]
+	socialIdentities=[domain.SocialIdentity@77]
+	enroled=[]
+	followers=[domain.User@e]
+	followed=[]
+	comments=[]
+	scores=[domain.Score@5e]
+	recipes=[domain.Recipe@4a, domain.Recipe@4b, domain.Recipe@65, domain.Recipe@66]
+} 
+
+
+
+Query C/3
+
+-The minimum, the average, and the maximum number of recipes that have qualified for a contest
+
+select min(c.qualified.size), avg(c.qualified.size), max(c.qualified.size) from Contest c;
+
+Busca en la tabla de concursos la lista de recetas calificadas y busca y calcula el mínimo, máximo 
+y la media
+
+1 objects found
+Object #0 = [Ljava.lang.Object;{
+	{0, 1.0, 2}
+} 
+
+
+
+Query C/4
+
+- The contest for which more recipes has qualified
+
+select c from Contest c where c.qualified.size = (select max(c.qualified.size) from Contest c);
+
+Busca en la tabla de concursos la lista de recetas más grande y después la compara con todos los 
+concursos y devuelve el/los que tengan una lista de ese tamaño
+
+Object #0 = domain.Contest{
+	id=99
+	version=0
+	title="Contest1"
+	openingTime=<<2016-11-30 20:00:00.0>>
+	closingTime=<<2018-03-02 20:00:00.0>>
+	deleted=<<false>>
+	qualified=[domain.Recipe@65, domain.Recipe@66]
+	winners=[]
+} 
+
+
+
+Query C/5
+
+- The average and the Standard deviation of number of steps per recipe
+
+select avg(r.steps.size), stddev(r.steps.size) from Recipe r;
+
+Usando el tamaño de la lista de pasos calcula la media y la variación estándar de toda la tabla
+
+1 objects found
+Object #0 = [Ljava.lang.Object;{
+	{0.75, 0.8292}
+} 
+
+
+
+Query C/6 // En esta he asumido el nÃºmero de ingredientes DIFERENTES, si no, se tiene que hacer accediendo a quantities y sumando con un groupby
+
+- The average and the Standard deviation of number of ingredients per recipe
+
+select avg(r.quantities.size), stddev(r.quantities.size) from Recipe r;
+
+Usando el tamaño de la lista de cantidades de ingredients
+calcula la media y la variación estándar de toda la tabla
+
+1 objects found
+Object #0 = [Ljava.lang.Object;{
+	{0.75, 0.8292}
+} 
+
+
+
+Query C/7
+
+- A listing of users in descending order of popularity
+
+select u from User u Order BY u.followers.size DESC;
+
+Usando el tamaño de la lista de seguidores devuelve los usuarios en orden descendiente
+
+3 objects found
+Object #0 = domain.User{
+	id=13
+	version=0
+	name="Alberto"
+	surname="Bujalance"
+	email="albbujmun@alum.us.es"
+	phone="A123"
+	postalAddress="calle Virgilio Mattoni nº 37  1º IZQ"
+	userAccount=security.UserAccount@2
+	folders=[domain.Folder@1a, domain.Folder@25, domain.Folder@30, domain.Folder@3b]
+	socialIdentities=[domain.SocialIdentity@77]
+	enroled=[]
+	followers=[domain.User@e]
+	followed=[]
+	comments=[]
+	scores=[domain.Score@5e]
+	recipes=[domain.Recipe@4a, domain.Recipe@4b, domain.Recipe@65, domain.Recipe@66]
+} 
+Object #1 = domain.User{
+	id=14
+	version=0
+	name="Álvaro"
+	surname="Martín"
+	email="alvmargor@alum.us.es"
+	phone="A355"
+	postalAddress="Un sitio oscuro"
+	userAccount=security.UserAccount@3
+	folders=[domain.Folder@1b, domain.Folder@26, domain.Folder@31, domain.Folder@3c]
+	socialIdentities=[]
+	enroled=[]
+	followers=[]
+	followed=[domain.User@d]
+	comments=[]
+	scores=[]
+	recipes=[]
+} 
+Object #2 = domain.User{
+	id=15
+	version=0
+	name="Julio"
+	surname="Troncoso"
+	email="jultrocor@alum.us.es"
+	phone="B912"
+	postalAddress="Cultura"
+	userAccount=security.UserAccount@4
+	folders=[domain.Folder@1c, domain.Folder@27, domain.Folder@32, domain.Folder@3d]
+	socialIdentities=[domain.SocialIdentity@78]
+	enroled=[]
+	followers=[]
+	followed=[]
+	comments=[domain.Comment@5b]
+	scores=[domain.Score@5d]
+	recipes=[]
+} 
+
+Query C/8
+
+- A listing of users in descending order regarding the average number of likes and dislikes that
+their recipes get
+
+select r.user from Recipe r group by r.user Order By avg(r.scores.size) DESC;
+
+select u from User u left join u.recipes r group by u order by avg(r.scores.size) DESC;
+
+Busca desde la tabla de recetas todos los usuarios que haya sido autores y después calcula la media del
+tamaño de la lista de puntuaciones respecto de todas las recetas agrupadas por usuario
+
+
+2 objects found
+Object #0 = domain.User{
+	id=13
+	version=0
+	name="Alberto"
+	surname="Bujalance"
+	email="albbujmun@alum.us.es"
+	phone="A123"
+	postalAddress="calle Virgilio Mattoni nº 37  1º IZQ"
+	userAccount=security.UserAccount@2
+	folders=[domain.Folder@1a, domain.Folder@25, domain.Folder@30, domain.Folder@3b]
+	socialIdentities=[domain.SocialIdentity@7a]
+	enroled=[]
+	followers=[domain.User@e]
+	followed=[]
+	comments=[]
+	scores=[domain.Score@60]
+	recipes=[domain.Recipe@4a, domain.Recipe@4b, domain.Recipe@68, domain.Recipe@69]
+} 
+Object #1 = domain.User{
+	id=14
+	version=0
+	name="Álvaro"
+	surname="Martín"
+	email="alvmargor@alum.us.es"
+	phone="A355"
+	postalAddress="Un sitio oscuro"
+	userAccount=security.UserAccount@3
+	folders=[domain.Folder@1b, domain.Folder@26, domain.Folder@31, domain.Folder@3c]
+	socialIdentities=[]
+	enroled=[]
+	followers=[]
+	followed=[domain.User@d]
+	comments=[]
+	scores=[]
+	recipes=[domain.Recipe@4c]
+} 
+
+
+-- B level --
+
+
+
+Query B/1
+
+- The minimum, the average, and the maximum number of campaigns per
+sponsor
+
+select min(s.campaigns.size), avg(s.campaigns.size), max(s.campaigns.size) from Sponsor s;
+
+Busca en la tabla de Sponsor los tamaños de las listas de campañas y ejecuta las operaciones de mínimo,
+media y máximo.
+
+1 objects found
+Object #0 = [Ljava.lang.Object;{
+	{1, 1.5, 2}
+} 
+
+
+
+Query B/2 // HALPO
+
+- The minimum, the average, and the maximum number of active campaigns
+per sponsor
+
+select min(s.campaigns.size), avg(s.campaigns.size), max(s.campaigns.size) from Sponsor s join s.campaigns c where CURRENT_DATE between c.startDate and c.endDate;
+
+select min(s.size), avg(s.size), max(s.size) from Sponsor s join fetch s.campaigns c where CURRENT_DATE between c.startDate and c.endDate;
+
+select count(c) as active, min(active), avg(active), max(active) from Campaign c where CURRENT_DATE between c.startDate and c.endDate group by c.sponsor;
+
+select min(s.campaigns.size), avg(s.campaigns.size), max(s.campaigns.size) from Sponsor s join s.campaigns c where CURRENT_DATE between c.startDate and c.endDate;
+
+select s from Sponsor s join fetch s.campaigns c where current_date between c.startDate and c.endDate;
+
+Seleccionamos el minimo la media y el maximo según la lista de campañas de Sponsor.
+Esta query ahora mismo no funcionaría correctamente porque el filtro del where no se aplica a la
+lista, pero Hibernate, una vez podamos manipular cómo se ejecuta la query a través de Java, nos
+permitirá aplicarle el filtro previamente creado a la lista y se devolvería el valor deseado.
+
+1 objects found
+Object #0 = [Ljava.lang.Object;{
+	{2, 2.0, 2}
+
+Query B/3
+
+- The ranking of companies according the number of campaigns that theyâ€™ve
+organised via their sponsors
+
+select s.companyName from Sponsor s group by s.companyName order by s.campaigns.size DESC;
+
+Busca desde la tabla de patrocinadores el nombre de su compañía y lo utiliza para agrupar,
+después ordena según el tamaño de la lista de campañas
+
+
+2 objects found
+Object #0 = java.lang.String{"Endesa"} 
+Object #1 = java.lang.String{"Adidas"} 
+
+
+Query B/4
+
+- The ranking of companies according their monthly bills
+
+select s.companyName from Sponsor s left join s.bills b group by s.companyName order by sum(b.cost) DESC;
+
+Busca en la tabla de sponsor e itera sobre sus facturas, agrupa según el nombre de la compañia para
+la suma del coste y ordena según este.
+
+
+2 objects found
+Object #0 = java.lang.String{"Endesa"} 
+Object #1 = java.lang.String{"Adidas"}  
+
+
+Query B/5 // Si es asumiendo el coste, la tercera está bien
+
+- The average and the standard deviation of paid and unpaid monthly bills
+
+--select avg(s.bills.size), stddev(s.bills.size) from Sponsor s join s.bills b where b.paymentDate is null;
+
+--select avg(s.bills.size), stddev(s.bills.size) from Sponsor s join s.bills b where b.paymentDate is not null;
+
+select avg(b.cost), stddev(b.cost), (select avg(b.cost) from Bill b where b.paymentDate is null), (select stddev(b.cost) from Bill b where b.paymentDate is null) from Bill b where b.paymentDate is not null;
+
+Busca en la tabla de bill 3 veces, una para la media y la desviación de las pagadas,
+y otras dos para la media y la desviación de las no pagadas, respectivamente.
+
+1 objects found
+Object #0 = [Ljava.lang.Object;{
+	{2.0, 0.0, 2.0, 0.0}
+}
+
+Query B/6 
+
+- The sponsors who have not managed a campaign for the last three months
+
+select s from Sponsor s join s.campaigns c where datediff(current_date, c.endDate) > 90 and current_date not between c.startDate and c.endDate;
+
+Enttramos en la tabla de Sponsor, iteramos sobre las campañas y comprobamos que la diferencia
+entre le fecha actual y la final sea mayor que 90 días y que la fecha actual no se encuentre 
+entre las fechas de inicio y de fin de las campañas.
+Devuelve un sponsor que tenga una campaña más antigua que 90 días, ignorando si hay otra
+que no cumpla la clausula where.
+
+1 objects found
+Object #0 = domain.Sponsor{
+	id=22
+	version=0
+	name="Sponsor"
+	surname="2"
+	email="sponsor2@gmail.com"
+	phone="K913"
+	postalAddress="calle sponsorsPros"
+	userAccount=security.UserAccount@b
+	folders=[domain.Folder@23, domain.Folder@2e, domain.Folder@39, domain.Folder@44]
+	socialIdentities=[]
+	enroled=[]
+	companyName="Adidas"
+	creditCard=domain.CreditCard@17
+	bills=[domain.Bill@70, domain.Bill@71]
+	campaigns=[domain.Campaign@75]
+} 
+
+Query B/7 
+
+- The companies that have spent less than the average in their campaigns
+
+select s.companyName 
+from Sponsor s join s.bills b 
+where b.paymentDate is not null 
+and b.cost < 
+(select avg(b.cost) 
+from Bill b 
+where b.paymentDate is not null) 
+group by s.companyName;
+
+Busca lo que se ha pagado cada compañía en una factura, ya que el dinero que se paga ahí es el 
+de las campañas y lo compara con la media en otro select y después lo agrupa según el nombre de la
+compañía.
+En nuestro populate de ejemplo no devuelve nada porque todos han gastado lo mismo, pero si fuese menor
+o igual que la media este devolvería las dos compañías.
+
+0 objects found
+
+Query B/8 
+
+- The companies that have spent at least 90% the maximum amount of money 
+that a company has spent on a campaign.
+
+select s.companyName from Sponsor s join s.bills b where
+ b.paymentDate is not null group by s.companyName having sum(b.cost) >=  
+ (select sum(ban.timesShown*sys.fee) 
+ from Campaign c join c.banners ban, SystemConfiguration sys 
+ group by c having sum(ban.timesShown*sys.fee) >= 
+ all(select sum(ban.timesShown*sys.fee) 
+ from Campaign c join c.banners ban, SystemConfiguration sys))*(0.9);
+ 
+ 
+ Comprueba que las facturas a evaluar estén pagadas, después calcula la suma de las facturas pagadas y
+ la compara con la suma máxima de la fee por el número de veces que se ha mostrado un banner,
+ esta se obtiene comparandola con todas las posibles sumas ya que no se le puede hacer un max()
+ 
+ 2 objects found
+Object #0 = java.lang.String{"Adidas"} 
+Object #1 = java.lang.String{"Endesa"} 
+  
+
+-- A level --
+
+
+
+Query A/1
+
+-The minimum, the maximum, the average, and the standard deviation of the 
+number of master classes per cook.
+
+select min(c.masterClasses.size), max(c.masterClasses.size), avg(c.masterClasses.size), stddev(c.masterClasses.size) from Cook c;
+
+Iterando la lista de masterClasses desde Cook calcula todo.
+
+1 objects found
+Object #0 = [Ljava.lang.Object;{
+	{0, 3, 1.5, 1.5}
+	
+
+
+Query A/2 
+
+-The average number of learning materials per master class, grouped by kind of learning material.
+
+select count(l)*1.0/(select count(m) from MasterClass m) from LearningMaterial l group by l.class;
+
+Cuenta los learning material de cada tipo y los divide entre el número de MasterClasses
+
+3 objects found
+Object #0 = java.lang.Double{0.33333} 
+Object #1 = java.lang.Double{0.33333} 
+Object #2 = java.lang.Double{0.33333} 
+
+Query A/3
+
+-The number of master classes that have been promoted.
+
+select count(m) from MasterClass m where m.promoted = true;
+
+Cuenta el número de masterClasses una vez aplicado el filtro
+
+1 objects found
+Object #0 = java.lang.Long{0} 
+
+
+Query A/4  //Si se pudiese hacer un select en un order by la tercera sería correcta, pero ni idea
+
+-The listing of cooks, sorted according to the number of master classes that have been promoted.
+
+select c from Cook c left join c.masterClasses m where m.promoted = true order by count(m) DESC;
+
+select m.cook from MasterClass m where m.promoted = true group by m.cook order by count(m) DESC;
+
+select c from Cook c order by (select count(m) from MasterClass m where m.promoted = true group by m.cook) DESC;
+
+
+Query A/5 
+
+-The average number of promoted and demoted master classes per cook.
+
+select count(mcp)*1.0/(select count(c) from Cook c),
+(select count(mcd) from MasterClass mcd where mcd.promoted=false)*1.0/(select count(c) from Cook c)
+ from MasterClass mcp where mcp.promoted=true;
+
+ Primero contamos las clases promocionadas, se multiplican por 1.0 para que la query devuelva un 
+ double o long, y se dividen entre la cuenta de cocineros, después hacemos lo mismo con las clases
+ que no están promocionadas.
+ 
+ 1 objects found
+Object #0 = [Ljava.lang.Object;{
+	{0.0, 1.5}
+} 
