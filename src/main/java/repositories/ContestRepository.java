@@ -9,12 +9,12 @@ import org.springframework.stereotype.Repository;
 import domain.Contest;
 
 @Repository
-public interface ContestRepository extends JpaRepository<Contest, Integer> {
-
-	@Query ("select min(c.qualified.size), avg(c.qualified.size)," +
-			" max(c.qualified.size) from Contest c")
-	Collection<Integer> selectMinAvgMaxRecipesInContests();
+public interface ContestRepository extends JpaRepository<Contest, Integer>{
 	
-	@Query ("select c from Contest c where c.qualified.size = (select max(c.qualified.size) from Contest c)")
-	Contest selectContestMostRecipes();
+	@Query("select min(c.qualified.size), avg(c.qualified.size), max(c.qualified.size) from Contest c")
+	Collection<Double> getMinAvgMaxRecipesQualifiedForContest();
+	
+	@Query("select c from Contest c where c.qualified.size = (select max(c.qualified.size) from Contest c)")
+	Contest getContestWithMoreRecipesQualified();
+	
 }
