@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import domain.Comment;
 import domain.Quantity;
 import domain.Recipe;
+import domain.Score;
 import domain.Step;
 import domain.User;
 
@@ -31,7 +32,9 @@ public class RecipeService {
 	
 	//supporting services-------------------
 	@Autowired
-//	private StepService stepService;
+	private StepService stepService;
+	@Autowired
+	private QuantityService quantityService;
 	
 	//Basic CRUD methods-------------------
 	
@@ -123,23 +126,51 @@ public class RecipeService {
 		return recipeRepository.getUsersByAvgOfLikesAndDislikesOfRecipe();
 	}
 	
+	
+	//Este metodo hay que testearlo muchísimo. Es bastante grande y parte core del funcionamiento de la aplicación.
 	public Recipe createCopyForContest(Recipe recipe){
 		
 		String ticker = this.createTicker();
-		Recipe copy;
-		copy = new Recipe();
+		Recipe copy = new Recipe();
+		
 		copy.setAuthored(recipe.getAuthored());
 		copy.setCategories(recipe.getCategories());
 		copy.setHints(recipe.getHints());
 		copy.setPictures(recipe.getPictures());
 		copy.setQuantities(new ArrayList<Quantity>());
 		copy.setSummary(recipe.getSummary());
-		copy.setSteps(new ArrayList<Step>());//No estoy seguro del todo de esta, puesto que no se si steps son exclusivos a una receta.
+		copy.setSteps(new ArrayList<Step>());
 		copy.setTicker(ticker);
 		copy.setTitle(recipe.getTitle());
 		copy.setComments(new ArrayList<Comment>());
 		copy.setDeleted(recipe.getDeleted());
-		return copy;
+		copy.setScores(new ArrayList<Score>());
+		
+		Recipe copySavedNoSteps = this.save(copy);
+		
+		Collection<Step> stepsForCopy = new ArrayList<Step>();
+		for(Step s : recipe.getSteps()){
+			
+			Step newStep = stepService.createCopy(s);
+			newStep.setRecipe(copySavedNoSteps);
+			Step savedNewStep = stepService.save(newStep);
+			stepsForCopy.add(savedNewStep);
+		}
+		
+		Collection<Quantity> quantitiesForCopy = new ArrayList<Quantity>();
+		for(Quantity q : recipe.getQuantities()){
+			
+			Quantity newQuantity = quantityService.createCopy(q);
+			newQuantity.setRecipe(copySavedNoSteps);
+			Quantity savedNewQuantity = quantityService.save(newQuantity);
+			quantitiesForCopy.add(savedNewQuantity);
+		}
+		
+		copySavedNoSteps.setSteps(stepsForCopy);
+		copySavedNoSteps.setQuantities(quantitiesForCopy);
+		Recipe copySavedSteps = this.save(copySavedNoSteps);
+		
+		return copySavedSteps;
 	}
 	
 	
