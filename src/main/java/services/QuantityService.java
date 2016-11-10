@@ -54,7 +54,7 @@ public class QuantityService {
 	
 	public Quantity createCopy(Quantity quantity){
 		
-		Quantity copied = this.create();
+		Quantity copied = new Quantity();
 		copied.setIngredient(quantity.getIngredient());
 		copied.setQuantity(quantity.getQuantity());
 		copied.setUnit(quantity.getUnit());

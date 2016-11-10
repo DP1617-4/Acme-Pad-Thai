@@ -106,7 +106,7 @@ public class RecipeService {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePattern);
 		String moment = simpleDateFormat.format(new Date());
 		String code = "";
-		code += this.randomLetter() + this.randomLetter() + this.randomLetter() + this.randomLetter();
+		code += "-" + this.randomLetter() + this.randomLetter() + this.randomLetter() + this.randomLetter();
 		result= moment + code;
 		return result;
 	}
@@ -171,6 +171,20 @@ public class RecipeService {
 		Recipe copySavedSteps = this.save(copySavedNoSteps);
 		
 		return copySavedSteps;
+	}
+	
+	public Recipe delete2(Recipe recipe){
+		
+		recipe.setDeleted(true);
+		Recipe saved = this.save(recipe);
+		return saved;
+	}
+	
+	public Recipe restore(Recipe recipe){
+		
+		recipe.setDeleted(false);
+		Recipe saved = this.save(recipe);
+		return saved;
 	}
 	
 	
