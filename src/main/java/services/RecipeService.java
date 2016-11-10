@@ -113,7 +113,7 @@ public class RecipeService {
 	
 	public Collection<Double> getAvgStdStepsPerRecipe(){
 		
-		return recipeRepository.getAvgStdIngredientsPerRecipe();
+		return recipeRepository.getAvgStdStepsPerRecipe();
 	}
 	
 	public Collection<Double> getAvgStdIngredientsPerRecipe(){
