@@ -1,10 +1,18 @@
 package services;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import repositories.PropertyRepository;
 import domain.Property;
 
+
+@Service
+@Transactional
 public class PropertyService {
 
 	//managed repository-------------------
@@ -19,6 +27,7 @@ public class PropertyService {
 			
 			Property created;
 			created = new Property();
+			created.setDeleted(false);
 			return created;
 		}
 		
@@ -57,5 +66,19 @@ public class PropertyService {
 			property.setDeleted(false);
 			Property saved = this.save(property);
 			return saved;
+		}
+		
+		public Collection<Property> findAllNotDeleted(){
+			
+			Collection<Property> notDeleted = new ArrayList<Property>();
+			for(Property p: propertyRepository.findAll()){
+				
+				if(p.getDeleted()==false){
+					
+					notDeleted.add(p);
+				}
+			}
+			
+			return notDeleted;
 		}
 }

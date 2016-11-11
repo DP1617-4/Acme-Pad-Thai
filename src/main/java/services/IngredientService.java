@@ -1,14 +1,26 @@
 package services;
 
+<<<<<<< HEAD
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+=======
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+>>>>>>> refs/remotes/origin/master
 
 import repositories.IngredientRepository;
 import domain.Ingredient;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
 @Service
 @Transactional
 public class IngredientService {
@@ -25,6 +37,7 @@ public class IngredientService {
 			
 			Ingredient created;
 			created = new Ingredient();
+			created.setDeleted(false);
 			return created;
 		}
 		
@@ -63,5 +76,19 @@ public class IngredientService {
 			ingredient.setDeleted(false);
 			Ingredient saved = this.save(ingredient);
 			return saved;
+		}
+		
+		public Collection<Ingredient> findAllNotDeleted(){
+			
+			Collection<Ingredient> notDeleted = new ArrayList<Ingredient>();
+			for(Ingredient i: ingredientRepository.findAll()){
+				
+				if(i.getDeleted()==false){
+					
+					notDeleted.add(i);
+				}
+			}
+			
+			return notDeleted;
 		}
 }
