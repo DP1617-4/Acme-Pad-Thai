@@ -233,3 +233,4 @@ pip-log.txt
 *.mo
 *.directory
 /target/
+target/m2e-wtp/web-resources/META-INF/maven/Design-and-Testing/Acme-Pad-Thai/pom.properties
