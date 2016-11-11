@@ -1,10 +1,17 @@
 package services;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import repositories.IngredientRepository;
 import domain.Ingredient;
 
+@Service
+@Transactional
 public class IngredientService {
 
 	//managed repository-------------------
@@ -19,6 +26,7 @@ public class IngredientService {
 			
 			Ingredient created;
 			created = new Ingredient();
+			created.setDeleted(false);
 			return created;
 		}
 		
@@ -57,5 +65,19 @@ public class IngredientService {
 			ingredient.setDeleted(false);
 			Ingredient saved = this.save(ingredient);
 			return saved;
+		}
+		
+		public Collection<Ingredient> findAllNotDeleted(){
+			
+			Collection<Ingredient> notDeleted = new ArrayList<Ingredient>();
+			for(Ingredient i: ingredientRepository.findAll()){
+				
+				if(i.getDeleted()==false){
+					
+					notDeleted.add(i);
+				}
+			}
+			
+			return notDeleted;
 		}
 }
