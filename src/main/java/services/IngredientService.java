@@ -1,15 +1,26 @@
 package services;
 
+<<<<<<< HEAD
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+=======
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+>>>>>>> refs/remotes/origin/master
 
 import repositories.IngredientRepository;
 import domain.Ingredient;
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> refs/remotes/origin/master
 @Service
 @Transactional
 public class IngredientService {
