@@ -7,5 +7,6 @@ import domain.SocialUser;
 
 @Repository
 public interface SocialUserRepository extends JpaRepository<SocialUser, Integer> {
+	
 
 }
