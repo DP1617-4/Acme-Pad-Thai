@@ -22,7 +22,8 @@ public class ContestService {
 			private ContestRepository contestRepository;
 			
 			//supporting services-------------------
-			
+			@Autowired
+			private RecipeService recipeService;
 			//Basic CRUD methods-------------------
 			
 			public Contest create(){
@@ -94,7 +95,7 @@ public class ContestService {
 			public void setWon(Contest contest){
 				Collection<Recipe> winners = new ArrayList<Recipe>(this.getContestWinners(contest));
 				for(Recipe r : winners){
-					RecipeService.winContest(r);
+					recipeService.winContest(contest,r);
 				}
 			}
 			
@@ -122,4 +123,18 @@ public class ContestService {
 				return saved;
 			}
 	
+			public Collection<Contest> findAllNotDeleted(){
+				
+				Collection<Contest> notDeleted = new ArrayList<Contest>();
+				for(Contest c: contestRepository.findAll()){
+					
+					if(c.getDeleted()==false){
+						
+						notDeleted.add(c);
+					}
+				}
+				
+				return notDeleted;
+			}
+			
 }

@@ -1,5 +1,8 @@
 package services;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import repositories.CategoryRepository;
 import domain.Category;
+import domain.Recipe;
 
 
 @Service
@@ -63,6 +67,20 @@ public class CategoryService {
 				category.setDeleted(false);
 				Category saved = this.save(category);
 				return saved;
+			}
+			
+			public Collection<Category> findAllNotDeleted(){
+				
+				Collection<Category> notDeleted = new ArrayList<Category>();
+				for(Category c: categoryRepository.findAll()){
+					
+					if(c.getDeleted()==false){
+						
+						notDeleted.add(c);
+					}
+				}
+				
+				return notDeleted;
 			}
 	
 }
