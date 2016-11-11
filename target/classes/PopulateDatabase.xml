@@ -1551,6 +1551,12 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 		</property>
 	</bean>
 	
+	<!--  Scores para las recetas copiadas -->
+	<bean id="score6" class="domain.Score">
+		<property name="likes" value="true" />
+		<property name="socialUser" ref="user3"/>
+		<property name="recipe" ref="recipe1copy"/>
+	</bean>
 	
 	<!-- CURRICULA -->
 	<bean id="curricula1" class="domain.Curricula">
