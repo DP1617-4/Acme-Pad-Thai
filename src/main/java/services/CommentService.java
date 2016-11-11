@@ -1,5 +1,6 @@
 package services;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.transaction.Transactional;
@@ -7,7 +8,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import repositories.CommentRepository;
 import domain.Comment;
+import domain.Step;
 
 @Service
 @Transactional
@@ -37,6 +40,11 @@ public class CommentService {
 			return retrieved;
 		}
 
+		public Collection<Comment> findAll(){
+			
+			return commentRepository.findAll();
+		}
+		
 		public Comment save(Comment comment){
 			
 			Comment saved;

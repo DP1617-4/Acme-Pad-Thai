@@ -1,5 +1,7 @@
 package services;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Random;
 
 import javax.transaction.Transactional;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import repositories.StepRepository;
+import domain.Contest;
 import domain.Step;
 
 
@@ -37,6 +40,11 @@ public class StepService {
 			Step retrieved;
 			retrieved = stepRepository.findOne(stepId);
 			return retrieved;
+		}
+		
+		public Collection<Step> findAll(){
+			
+			return stepRepository.findAll();
 		}
 
 		public Step save(Step step){
