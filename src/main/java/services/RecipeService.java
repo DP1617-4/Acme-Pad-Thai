@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import domain.Comment;
+import domain.Contest;
 import domain.Quantity;
 import domain.Recipe;
 import domain.Score;
@@ -19,6 +20,8 @@ import domain.Step;
 import domain.User;
 
 import repositories.RecipeRepository;
+import security.LoginService;
+import security.UserAccount;
 
 
 
@@ -35,6 +38,8 @@ public class RecipeService {
 	private StepService stepService;
 	@Autowired
 	private QuantityService quantityService;
+	@Autowired
+	private UserService userService;
 	
 	//Basic CRUD methods-------------------
 	
@@ -42,9 +47,12 @@ public class RecipeService {
 		
 		Recipe created;
 		Date moment = new Date(System.currentTimeMillis()-100);
+		User principal = userService.findByPrincipal();
 		created = new Recipe();
 		created.setAuthored(moment);
 		created.setDeleted(false);
+		created.setUser(principal);
+		
 		return created;
 	}
 	
@@ -113,7 +121,7 @@ public class RecipeService {
 	
 	public Collection<Double> getAvgStdStepsPerRecipe(){
 		
-		return recipeRepository.getAvgStdIngredientsPerRecipe();
+		return recipeRepository.getAvgStdStepsPerRecipe();
 	}
 	
 	public Collection<Double> getAvgStdIngredientsPerRecipe(){
@@ -183,6 +191,49 @@ public class RecipeService {
 	public Recipe restore(Recipe recipe){
 		
 		recipe.setDeleted(false);
+		Recipe saved = this.save(recipe);
+		return saved;
+	}
+	
+	public Boolean checkPrincipal(Recipe recipe){
+		
+		Boolean result = false;
+		UserAccount recipeUser = recipe.getUser().getUserAccount();
+		UserAccount principal = LoginService.getPrincipal();
+		if(recipeUser.equals(principal)){
+			
+			result = true;
+		}
+		
+		return result;
+		
+	}
+	
+	public Collection<Recipe> findAllNotDeleted(){
+		
+		Collection<Recipe> notDeleted = new ArrayList<Recipe>();
+		for(Recipe r: recipeRepository.findAll()){
+			
+			if(r.getDeleted()==false){
+				
+				notDeleted.add(r);
+			}
+		}
+		
+		return notDeleted;
+	}
+	
+	public Recipe qualifyForContest(Contest contest, Recipe recipe){
+		
+		Recipe copy = this.createCopyForContest(recipe);
+		copy.setContest(contest);
+		Recipe saved = this.save(copy);
+		return saved;
+	}
+	
+	public Recipe winContest(Contest contest, Recipe recipe){
+		
+		recipe.setWonContest(contest);
 		Recipe saved = this.save(recipe);
 		return saved;
 	}
