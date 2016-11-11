@@ -17,4 +17,6 @@ public interface ContestRepository extends JpaRepository<Contest, Integer>{
 	@Query("select c from Contest c where c.qualified.size = (select max(c.qualified.size) from Contest c)")
 	Contest getContestWithMoreRecipesQualified();
 	
+	@Query("select r from Recipe r Order BY r.score DESC join r.contest_id c where c;")
+	Contest getContestParticipantsOrderedByScore();
 }
