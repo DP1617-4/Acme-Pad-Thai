@@ -17,7 +17,6 @@ import domain.Cook;
 import domain.LearningMaterial;
 import domain.MasterClass;
 import domain.Message;
-import org.springframework.data.jpa.repository.Query;
 import repositories.MasterClassRepository;
 
 @Service
@@ -161,6 +160,14 @@ public class MasterClassService {
 		Double result;
 		result = masterClassRepository.calculateAvgLearningMaterialsPerMasterClass();
 		return result;
+	}
+	
+	public void checkEnrolled(int id){
+		Actor actor;
+		MasterClass masterClass;
+		masterClass = masterClassRepository.findOne(id);
+		actor = actorService.findByPrincipal();
+		Assert.isTrue(masterClass.getActors().contains(actor));
 	}
 
 

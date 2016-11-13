@@ -6,13 +6,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
 import repositories.SystemConfigurationRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
-import domain.Banner;
 import domain.SystemConfiguration;
 
 @Service

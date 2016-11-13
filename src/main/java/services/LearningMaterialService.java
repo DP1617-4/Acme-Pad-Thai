@@ -8,36 +8,42 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import repositories.LearningMaterialRepository;
 import repositories.PresentationMaterialRepository;
 import repositories.TextMaterialRepository;
 import repositories.VideoMaterialRepository;
 import domain.LearningMaterial;
+import domain.MasterClass;
 
 @Service
 @Transactional
 public class LearningMaterialService {
 	
-	@Autowired
-	private TextMaterialRepository textMaterialRepository;
+	//Constructor
 	
-
+	public LearningMaterialService(){
+		super();
+	}
+	//ManagedRepositories
 	@Autowired
-	private PresentationMaterialRepository presentationMaterialReposiotry;
+	private LearningMaterialRepository learningMaterialRepository;
 	
-
+	//AuxiliaryServices
+	
 	@Autowired
-	private VideoMaterialRepository videoMaterialRepository;
+	private MasterClassService masterClassService;
+	
+	
 
 	//Other Methods --------------------------------------------------------
 	
 	public Collection<LearningMaterial> findAllByMasterClass(int masterClassId){
-		//TODO check loged user is an actor
+		masterClassService.checkEnrolled(masterClassId);
 		Collection<LearningMaterial> learningMaterial = new ArrayList<LearningMaterial>();;
-		learningMaterial.addAll(textMaterialRepository.findAllByMasterClassId(masterClassId));
-		learningMaterial.addAll(presentationMaterialReposiotry.findAllByMasterClassId(masterClassId));
-		learningMaterial.addAll(videoMaterialRepository.findAllByMasterClassId(masterClassId));
-
+		learningMaterial = learningMaterialRepository.findAllByMasterClass(masterClassId); 
+		
 		return learningMaterial;
 	}
+	
 
 }
