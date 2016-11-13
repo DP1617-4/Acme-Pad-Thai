@@ -1,5 +1,7 @@
 package services;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.SystemConfigurationRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Banner;
@@ -22,6 +25,9 @@ public class SystemConfigurationService {
 	
 	//supporting services -------------------
 	
+	@Autowired
+	private AdministratorService adminService;
+	
 	//Basic CRUD methods --------------------
 	public SystemConfiguration create() {
 		SystemConfiguration created;
@@ -30,12 +36,20 @@ public class SystemConfigurationService {
 	}
 	
 	public SystemConfiguration findOne(int systemConfigurationId) {
+		adminService.checkAdministrator();
 		SystemConfiguration retrieved;
 		retrieved = systemConfigurationRepository.findOne(systemConfigurationId);
 		return retrieved;
 	}
 	
+	public Collection<SystemConfiguration> findAll(){
+		Collection<SystemConfiguration> result;
+		result = systemConfigurationRepository.findAll();
+		return result;
+	}
+	
 	public SystemConfiguration save(SystemConfiguration systemConfiguration) {
+		adminService.checkAdministrator();
 		SystemConfiguration saved;
 		saved = systemConfigurationRepository.save(systemConfiguration);
 		return saved;
@@ -48,11 +62,5 @@ public class SystemConfigurationService {
 	//Auxiliary methods ---------------------
 	
 	//Our other bussiness methods -----------
-	public SystemConfiguration save2(SystemConfiguration systemConfiguration) { // Requirement 34.1
-		UserAccount admin;
-		admin = LoginService.getPrincipal();
-		Assert.isTrue(systemConfiguration.gadasdaas.equals(admin)); // No se como hacer que sea un admin.
-		SystemConfiguration saved = this.save(systemConfiguration);
-		return saved;
-	}
+
 }

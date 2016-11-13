@@ -95,4 +95,33 @@ public class FolderService {
 
 	}
 	
+	public Collection<Folder> initFolders(Actor actor){
+		Collection<Folder> result = new ArrayList<Folder>();
+		Collection<Folder> aux = new ArrayList<Folder>();
+		Folder spambox;
+		Folder trashbox;
+		Folder inbox;
+		Folder outbox;
+		spambox = create(actor);
+		spambox.setSystemFolder(true);
+		spambox.setName("spambox");
+		trashbox = create(actor);
+		trashbox.setSystemFolder(true);
+		trashbox.setName("trashbox");
+		inbox = create(actor);
+		inbox.setSystemFolder(true);
+		inbox.setName("inbox");
+		outbox = create(actor);
+		outbox.setSystemFolder(true);
+		outbox.setName("outbox");
+		aux.add(outbox);
+		aux.add(inbox);
+		aux.add(trashbox);
+		aux.add(spambox);
+		result = folderRepository.save(aux);
+		
+		return result;
+		
+	}
+	
 }
