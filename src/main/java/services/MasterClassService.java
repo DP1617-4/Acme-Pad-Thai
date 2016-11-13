@@ -17,13 +17,14 @@ import domain.Cook;
 import domain.LearningMaterial;
 import domain.MasterClass;
 import domain.Message;
-
+import org.springframework.data.jpa.repository.Query;
 import repositories.MasterClassRepository;
 
 @Service
 @Transactional
 public class MasterClassService {
 	
+
 
 	//Constructor
 	public MasterClassService(){
@@ -45,6 +46,7 @@ public class MasterClassService {
 	@Autowired
 	private AdministratorService adminService;
 	
+
 	@Autowired
 	private MessageService messageService;
 	//CRUD
@@ -54,6 +56,7 @@ public class MasterClassService {
 		result.setCook(cook);
 		result.setActors(new ArrayList<Actor>());
 		result.setLearningMaterials(new ArrayList<LearningMaterial>());
+
 		result.setDeleted(false);
 		result.setPromoted(false);
 		return result;
@@ -88,7 +91,6 @@ public class MasterClassService {
 			message.setSender(admin);
 			messageService.send(message);
 		}
-		
 	}
 	
 	public Collection<MasterClass> findAll(){
@@ -110,12 +112,15 @@ public class MasterClassService {
 		Cook cook;
 		Collection<MasterClass> result;
 		cook = cookService.findByPrincipal();
+
 		result = masterClassRepository.findAllByCookId(cook.getId());
 		return result;
 	}
 	
+
 	//Business Methods
 	
+
 	public void promoteDemote(MasterClass masterClass){
 		adminService.checkAdministrator();
 		masterClass.setPromoted(!masterClass.getPromoted());

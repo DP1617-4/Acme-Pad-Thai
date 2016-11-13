@@ -22,7 +22,6 @@ import security.UserAccount;
 @Service
 @Transactional
 public class CookService {
-	
 
 	//Constructor
 	public CookService(){
@@ -65,9 +64,9 @@ public class CookService {
 		userAccount.setAuthorities(authorities);
 		
 		result.setUserAccount(userAccount);
-		
 		return result;
 	}
+
 	
 	public Cook findOneToEdit(int id){
 		Cook result;
@@ -106,8 +105,5 @@ public class CookService {
 		result = cookRepository.calculateMinMaxAvgDevFromMasterClassesOfCooks();
 		return result;
 	}
-	
-
-
 
 }

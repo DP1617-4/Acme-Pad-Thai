@@ -30,4 +30,5 @@ public interface MasterClassRepository extends JpaRepository<MasterClass, Intege
 	Collection<MasterClass> findMasterClassesByActor (int id);
 
 
+
 }
