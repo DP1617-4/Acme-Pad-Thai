@@ -93,6 +93,7 @@ public class MessageService {
 	public Message send(Message message){
 		Message result;
 		Boolean spam;
+		Folder outbox;
 		Folder recipientFolder;
 		message.setMoment(new Date(System.currentTimeMillis()-100));
 		spam = checkSpam(message);
@@ -105,6 +106,8 @@ public class MessageService {
 		}
 		result = messageRepository.save(message);
 		// Till now we have received the message from the form and have saved it in the recipient folder
+		outbox = folderService.findSystemFolder(message.getSender(), "sender");
+		message.setFolder(outbox);
 		return result;
 	}
 	
