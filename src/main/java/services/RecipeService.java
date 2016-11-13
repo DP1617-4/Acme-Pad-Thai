@@ -83,6 +83,11 @@ public class RecipeService {
 		
 	}
 	
+	public Collection<Recipe> findAll(){
+		
+		return recipeRepository.findAll();
+	}
+	
 	//Auxiliary methods
 	public char randomLetter(){
 		char result;
@@ -111,7 +116,7 @@ public class RecipeService {
 	public String createTicker(){
 		
 		String result;
-		String datePattern = "YYMMDD";
+		String datePattern = "yyMMdd";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePattern);
 		String moment = simpleDateFormat.format(new Date());
 		String code = "";
@@ -154,6 +159,7 @@ public class RecipeService {
 		String ticker = this.createTicker();
 		Recipe copy = new Recipe();
 		
+		copy.setUser(recipe.getUser());
 		copy.setAuthored(recipe.getAuthored());
 		copy.setCategories(recipe.getCategories());
 		copy.setHints(recipe.getHints());
