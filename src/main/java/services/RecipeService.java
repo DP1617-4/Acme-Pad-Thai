@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import domain.Comment;
 import domain.Contest;
@@ -121,17 +122,29 @@ public class RecipeService {
 	
 	public Collection<Double> getAvgStdStepsPerRecipe(){
 		
-		return recipeRepository.getAvgStdStepsPerRecipe();
+		Collection<Double> result = new ArrayList<Double>();
+		Double[] aux = recipeRepository.getAvgStdStepsPerRecipe();
+		for(int i=0;i<aux.length;i++){
+			
+			result.add(aux[i]);
+		}
+		return result;
 	}
 	
 	public Collection<Double> getAvgStdIngredientsPerRecipe(){
 		
-		return recipeRepository.getAvgStdIngredientsPerRecipe();
+		Collection<Double> result = new ArrayList<Double>();
+		Double[] aux = recipeRepository.getAvgStdIngredientsPerRecipe();
+		for(int i=0;i<aux.length;i++){
+			
+			result.add(aux[i]);
+		}
+		return result;
 	}
 	
 	public Collection<User> getUsersByAvgOfLikesAndDislikesOfRecipe(){
 		
-		return recipeRepository.getUsersByAvgOfLikesAndDislikesOfRecipe();
+		return getUsersByAvgOfLikesAndDislikesOfRecipe();
 	}
 	
 	
@@ -182,7 +195,7 @@ public class RecipeService {
 	}
 	
 	public Recipe delete2(Recipe recipe){
-		
+		Assert.isTrue(this.checkPrincipal(recipe));
 		recipe.setDeleted(true);
 		Recipe saved = this.save(recipe);
 		return saved;

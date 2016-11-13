@@ -11,7 +11,7 @@ import domain.VideoMaterial;
 @Repository
 public interface VideoMaterialRepository extends JpaRepository<VideoMaterial, Integer> {
 
-	@Query("select vm from VideoMaterial where vm.masterClass.id = ?1")
-	Collection<VideoMaterial> findAllByMasterClassId(int masterClassId);
+//	@Query("select vm from VideoMaterial where vm.masterClass.id = ?1")
+//	Collection<VideoMaterial> findAllByMasterClassId(int masterClassId);
 	
 }
