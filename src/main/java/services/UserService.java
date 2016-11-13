@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import repositories.UserRepository;
 import security.LoginService;
 import security.UserAccount;
+import domain.Cook;
 import domain.Recipe;
 import domain.SocialUser;
 import domain.User;
@@ -58,12 +59,10 @@ public class UserService {
 		}
 		
 		public User findByPrincipal(){
-			User result;
-			UserAccount userAccount;
 			
-			userAccount = loginService.getPrincipal();
-			result = findOne(userAccount.getId());
-			return result;
+			User user = userRepository.findOneByUserAccountId(LoginService.getPrincipal().getId());
+			return user;
+
 		}
 		
 		//Auxiliary methods
