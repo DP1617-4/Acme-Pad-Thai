@@ -22,4 +22,9 @@ public interface MasterClassRepository extends JpaRepository<MasterClass, Intege
 	@Query("select count(l)*1.0/(select count(m) from MasterClass m) from LearningMaterial l group by l.class")
 	Double calculateAvgLearningMaterialsPerMasterClass();
 
+	@Query("select a.enroled from Actor a where a.id = ?1")
+	Collection<MasterClass> findMasterClassesByActor (int id);
+
+	@Query("select c.masterClasses from Cook c where c.id = ?1")
+	Collection<MasterClass> findImpartedClasses(int id);
 }
