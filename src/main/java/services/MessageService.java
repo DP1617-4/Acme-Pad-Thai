@@ -109,6 +109,7 @@ public class MessageService {
 		outbox = folderService.findSystemFolder(message.getSender(), "outbox");
 		message.setFolder(outbox);
 		result = messageRepository.save(message);
+
 		return result;
 	}
 	
