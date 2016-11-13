@@ -11,6 +11,6 @@ import domain.TextMaterial;
 @Repository
 public interface TextMaterialRepository extends JpaRepository<TextMaterial, Integer> {
 	
-//	@Query("select tm from TextMaterial where tm.masterClass.id = ?1")
-//	Collection<TextMaterial> findAllByMasterClassId(int masterClassId);
+	@Query("select tm from TextMaterial tm where tm.masterClass.id = ?1")
+	Collection<TextMaterial> findAllByMasterClassId(int masterClassId);
 }

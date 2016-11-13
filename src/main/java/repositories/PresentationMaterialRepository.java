@@ -11,7 +11,7 @@ import domain.PresentationMaterial;
 @Repository
 public interface PresentationMaterialRepository extends JpaRepository<PresentationMaterial, Integer> {
 
-//	@Query("select pm from PresentationMaterial where pm.masterClass.id = ?1")
-//	Collection<PresentationMaterial> findAllByMasterClassId(int masterClassId);
+	@Query("select pm from PresentationMaterial pm where pm.masterClass.id = ?1")
+	Collection<PresentationMaterial> findAllByMasterClassId(int masterClassId);
 	
 }
