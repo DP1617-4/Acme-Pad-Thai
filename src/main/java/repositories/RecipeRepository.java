@@ -13,10 +13,10 @@ import domain.User;
 public interface RecipeRepository extends JpaRepository<Recipe, Integer>{
 	
 	@Query("select avg(r.steps.size), stddev(r.steps.size) from Recipe r")
-	Collection<Double> getAvgStdStepsPerRecipe();
+	Double[] getAvgStdStepsPerRecipe();
 	
 	@Query("select avg(r.quantities.size), stddev(r.quantities.size) from Recipe r")
-	Collection<Double> getAvgStdIngredientsPerRecipe();
+	Double[] getAvgStdIngredientsPerRecipe();
 	
 	@Query("select r.user from Recipe r group by r.user Order By avg(r.scores.size) DESC")
 	Collection<User> getUsersByAvgOfLikesAndDislikesOfRecipe();
