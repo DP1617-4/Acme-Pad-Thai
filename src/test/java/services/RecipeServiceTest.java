@@ -1,6 +1,6 @@
 package services;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -81,10 +81,12 @@ public class RecipeServiceTest extends AbstractTest {
 		try{
 			Recipe saved = recipeService.save(recipe);
 			fail("Shouldn't allow null values");
+			Assert.isTrue(!(recipeService.findAll().contains(saved)));
 		}
 		catch(Exception e){
 			Assert.isInstanceOf(IllegalArgumentException.class, e);
 		}
+		
 	}
 	
 	@Test
@@ -177,6 +179,35 @@ public class RecipeServiceTest extends AbstractTest {
 		
 		
 	}
+	
+	@Test
+	public void testFindAllNotDeleted() {
+		super.authenticate("user1");
+		Recipe recipe =  recipeService.create();
+		recipe.setHints("example of hints");
+		
+		Collection<String> pictures = new ArrayList<String>();
+		pictures.add("http://dasdlasdkjas.com");
+		pictures.add("http://omfg.org");
+		recipe.setPictures(pictures);
+		
+		Collection<Step> steps = new ArrayList<Step>();
+		recipe.setSteps(steps);
+		
+		Collection<Category> categories = new ArrayList<Category>();
+		recipe.setCategories(categories);
+		
+		Collection<Quantity> quantities = new ArrayList<Quantity>();
+		recipe.setQuantities(quantities);
+		
+		recipe.setSummary("random summary");
+		recipe.setTitle("apetecán");
+		Recipe saved = recipeService.save(recipe);
+		Recipe deleted = recipeService.delete2(saved);
+		
+		Assert.isTrue(!(recipeService.findAllNotDeleted().contains(deleted)));
+	}
+
 
 }
 

@@ -54,6 +54,11 @@ public class IngredientService {
 			
 		}
 		
+		public Collection<Ingredient> findAll(){
+			
+			return ingredientRepository.findAll();
+		}
+		
 		//Other Bussiness Methods
 		
 		public Ingredient delete2(Ingredient ingredient){
