@@ -47,7 +47,7 @@ public class MessageService {
 		Message result = new Message();
 		Actor sender;
 		sender = actorService.findByPrincipal();
-		result.setMoment(new Date(System.currentTimeMillis()-100));
+		result.setMoment(new Date());
 		result.setReceiver(recipient);
 		result.setSender(sender);
 		result.setPriority("Neutral"); //By default neutral
@@ -100,7 +100,7 @@ public class MessageService {
 		Boolean spam;
 		Folder outbox;
 		Folder recipientFolder;
-		message.setMoment(new Date(System.currentTimeMillis()-100));
+		message.setMoment(new Date(System.currentTimeMillis()-1));
 		spam = checkSpam(message);
 		if (spam){
 			recipientFolder = folderService.findSystemFolder(message.getReceiver(), "spambox");

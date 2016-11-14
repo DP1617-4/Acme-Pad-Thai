@@ -15,7 +15,6 @@ import domain.Actor;
 import domain.Folder;
 import domain.Message;
 
-import security.UserAccount;
 import utilities.AbstractTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -71,6 +70,7 @@ public class MessageServiceTest extends AbstractTest {
 		result.setTitle("TestM");
 		result.setBody("TestB");
 		sent = messageService.send(result);
+		authenticate("user1");
 		inbox = folderService.findSystemFolder(recipient, "inbox");
 		sents = messageService.findAllByFolder(inbox.getId());
 		Assert.isTrue(sents.contains(sent));
@@ -138,7 +138,7 @@ public class MessageServiceTest extends AbstractTest {
 	}
 	@Test
 	public void testFindAllByFolder(){
-		authenticate("user1");
+		authenticate("user2");
 		Collection<Message> result;
 		result = messageService.findAllByFolder(59);
 		Assert.notEmpty(result);
@@ -210,6 +210,7 @@ public class MessageServiceTest extends AbstractTest {
 		result.setTitle("TestA");
 		result.setBody("TestSpam sex");
 		sent = messageService.send(result);
+		authenticate("user1");
 		spambox = folderService.findSystemFolder(recipient, "spambox");
 		sents = messageService.findAllByFolder(spambox.getId());
 		Assert.isTrue(sents.contains(sent));
