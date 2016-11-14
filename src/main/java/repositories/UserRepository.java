@@ -20,4 +20,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query ("select u from User u Order BY u.followers.size DESC")
 	Collection<User> selectAllUsersDescendingNumberOfFollowers();
 	
+	@Query("select u from User u where u.userAccount.id = ?1")
+	User findOneByUserAccountId(int userAccountId);
+	
+	
 }

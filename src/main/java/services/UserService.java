@@ -1,17 +1,12 @@
 package services;
 
 import java.util.Collection;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import repositories.UserRepository;
 import security.LoginService;
-import security.UserAccount;
-import domain.Recipe;
-import domain.SocialUser;
 import domain.User;
 
 @Service
@@ -58,12 +53,10 @@ public class UserService {
 		}
 		
 		public User findByPrincipal(){
-			User result;
-			UserAccount userAccount;
 			
-			userAccount = loginService.getPrincipal();
-			result = findOne(userAccount.getId());
-			return result;
+			User user = userRepository.findOneByUserAccountId(loginService.getPrincipal().getId());
+			return user;
+
 		}
 		
 		//Auxiliary methods

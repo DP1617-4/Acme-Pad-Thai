@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import repositories.CommentRepository;
 import domain.Comment;
-import domain.Step;
 
 @Service
 @Transactional

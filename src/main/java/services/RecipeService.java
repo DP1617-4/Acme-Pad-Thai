@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import domain.Comment;
 import domain.Contest;
@@ -82,6 +83,11 @@ public class RecipeService {
 		
 	}
 	
+	public Collection<Recipe> findAll(){
+		
+		return recipeRepository.findAll();
+	}
+	
 	//Auxiliary methods
 	public char randomLetter(){
 		char result;
@@ -110,7 +116,7 @@ public class RecipeService {
 	public String createTicker(){
 		
 		String result;
-		String datePattern = "YYMMDD";
+		String datePattern = "yyMMdd";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePattern);
 		String moment = simpleDateFormat.format(new Date());
 		String code = "";
@@ -121,17 +127,29 @@ public class RecipeService {
 	
 	public Collection<Double> getAvgStdStepsPerRecipe(){
 		
-		return recipeRepository.getAvgStdStepsPerRecipe();
+		Collection<Double> result = new ArrayList<Double>();
+		Double[] aux = recipeRepository.getAvgStdStepsPerRecipe();
+		for(int i=0;i<aux.length;i++){
+			
+			result.add(aux[i]);
+		}
+		return result;
 	}
 	
 	public Collection<Double> getAvgStdIngredientsPerRecipe(){
 		
-		return recipeRepository.getAvgStdIngredientsPerRecipe();
+		Collection<Double> result = new ArrayList<Double>();
+		Double[] aux = recipeRepository.getAvgStdIngredientsPerRecipe();
+		for(int i=0;i<aux.length;i++){
+			
+			result.add(aux[i]);
+		}
+		return result;
 	}
 	
 	public Collection<User> getUsersByAvgOfLikesAndDislikesOfRecipe(){
 		
-		return recipeRepository.getUsersByAvgOfLikesAndDislikesOfRecipe();
+		return getUsersByAvgOfLikesAndDislikesOfRecipe();
 	}
 	
 	
@@ -141,6 +159,7 @@ public class RecipeService {
 		String ticker = this.createTicker();
 		Recipe copy = new Recipe();
 		
+		copy.setUser(recipe.getUser());
 		copy.setAuthored(recipe.getAuthored());
 		copy.setCategories(recipe.getCategories());
 		copy.setHints(recipe.getHints());
@@ -182,7 +201,7 @@ public class RecipeService {
 	}
 	
 	public Recipe delete2(Recipe recipe){
-		
+		Assert.isTrue(this.checkPrincipal(recipe));
 		recipe.setDeleted(true);
 		Recipe saved = this.save(recipe);
 		return saved;

@@ -19,7 +19,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer>{
 	Double[] getAvgStdIngredientsPerRecipe();
 	
 	@Query("select r.user from Recipe r group by r.user Order By avg(r.scores.size) DESC")
-	User[] getUsersByAvgOfLikesAndDislikesOfRecipe();
+	Collection<User> getUsersByAvgOfLikesAndDislikesOfRecipe();
 	
 	
 

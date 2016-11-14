@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import repositories.ContestRepository;
 import domain.Contest;
 import domain.Recipe;
-import domain.Score;
 
 @Service
 @Transactional
