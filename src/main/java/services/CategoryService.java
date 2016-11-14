@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import repositories.CategoryRepository;
 import domain.Category;
-import domain.Recipe;
 
 
 @Service

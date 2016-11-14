@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import domain.Actor;
+import domain.MasterClass;
 
 import repositories.ActorRepository;
 import security.LoginService;
@@ -49,4 +50,11 @@ public class ActorService {
 	}
 	//Business Methods
 	
+	//Maybe in MasterClassService makes more sense, but it is mapped by "Actor" so...
+	public void register (MasterClass masterClass){
+		Actor actor;
+		actor = findByPrincipal();
+		actor.getEnroled().add(masterClass);
+		actorRepository.save(actor);
+	}
 }

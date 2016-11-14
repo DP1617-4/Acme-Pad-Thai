@@ -90,9 +90,48 @@ public class FolderService {
 		Assert.isTrue(actor.equals(folder.getActor()), "Dear User, you can't edit a folder that doesn't belong to you");
 	}
 	
+	public void checkPrincipal(int folderId){
+		Folder folder;
+		folder = folderRepository.findOne(folderId);
+		System.out.println("Antes de buscar el principal");
+		Actor actor = actorService.findByPrincipal();
+		System.out.println("Después");
+		Assert.isTrue(actor.equals(folder.getActor()), "Dear User, you can't edit a folder that doesn't belong to you");
+		System.out.println("Después de la comparación de actores");
+	}
+	
 	public void checkSysFolder(Folder folder){
 		Assert.isTrue(!folder.getSystemFolder(), "Dear User, you can't edit a system Folder");
 
+	}
+	
+	public Collection<Folder> initFolders(Actor actor){
+		Collection<Folder> result = new ArrayList<Folder>();
+		Collection<Folder> aux = new ArrayList<Folder>();
+		Folder spambox;
+		Folder trashbox;
+		Folder inbox;
+		Folder outbox;
+		spambox = create(actor);
+		spambox.setSystemFolder(true);
+		spambox.setName("spambox");
+		trashbox = create(actor);
+		trashbox.setSystemFolder(true);
+		trashbox.setName("trashbox");
+		inbox = create(actor);
+		inbox.setSystemFolder(true);
+		inbox.setName("inbox");
+		outbox = create(actor);
+		outbox.setSystemFolder(true);
+		outbox.setName("outbox");
+		aux.add(outbox);
+		aux.add(inbox);
+		aux.add(trashbox);
+		aux.add(spambox);
+		result = folderRepository.save(aux);
+		
+		return result;
+		
 	}
 	
 }
