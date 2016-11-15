@@ -1,7 +1,5 @@
 package services;
 
-import static org.junit.Assert.fail;
-
 import java.util.Collection;
 
 import javax.transaction.Transactional;
@@ -36,7 +34,7 @@ public class CategoryServiceTest extends AbstractTest {
 	@Test
 	public void testCreatePositive() {
 		super.authenticate("admin1");
-		Category category =  categoryService.create();
+		Category category =  categoryService.create(null);
 		Assert.isTrue(!category.getDeleted());
 		
 	}
@@ -44,7 +42,7 @@ public class CategoryServiceTest extends AbstractTest {
 	@Test
 	public void testSavePositive() {
 		super.authenticate("admin1");
-		Category category =  categoryService.create();
+		Category category =  categoryService.create(null);
 		category.setDescription("example of hints");
 		category.setPicture("http://dasdlasdkjas.com");
 		category.setName("Pizza");
@@ -59,7 +57,7 @@ public class CategoryServiceTest extends AbstractTest {
 	@Test
 	public void testSaveNegative() {
 		super.authenticate("admin1");
-		Category category =  categoryService.create();
+		Category category =  categoryService.create(null);
 		try{
 			Category saved = categoryService.save(category);
 		}
@@ -71,7 +69,7 @@ public class CategoryServiceTest extends AbstractTest {
 	@Test
 	public void testDeletePositive() {
 		super.authenticate("admin1");
-		Category category =  categoryService.create();
+		Category category =  categoryService.create(null);
 		category.setDescription("example of hints");
 		category.setPicture("http://www.jpg.com");
 		category.setName("random summary");
@@ -88,7 +86,7 @@ public class CategoryServiceTest extends AbstractTest {
 	@Test
 	public void testDelete2() {
 		super.authenticate("admin1");
-		Category category =  categoryService.create();
+		Category category =  categoryService.create(null);
 		category.setDescription("example of hints");
 		category.setPicture("http://www.jpg.com");
 		category.setName("random summary");

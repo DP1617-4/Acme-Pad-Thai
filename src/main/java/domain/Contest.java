@@ -31,7 +31,6 @@ public class Contest extends DomainEntity {
 	private boolean deleted;
 	
 	@NotBlank
-	
 	public String getTitle() {
 		return title;
 	}

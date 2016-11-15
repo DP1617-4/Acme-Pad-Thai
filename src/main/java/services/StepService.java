@@ -21,8 +21,8 @@ public class StepService {
 		private StepRepository stepRepository;
 		
 		//supporting services-------------------
-		//@Autowired
-		//private StepService stepService;
+//		@Autowired
+//		private RecipeService recipeService;
 		
 		//Basic CRUD methods-------------------
 		
@@ -57,7 +57,6 @@ public class StepService {
 		public void delete(Step step){
 			
 			stepRepository.delete(step);
-			
 		}
 		
 		//Auxiliary methods
@@ -72,8 +71,8 @@ public class StepService {
 			copied.setHints(step.getHints());
 			copied.setStepNumber(step.getStepNumber());
 			copied.setRecipe(step.getRecipe());
-			
-			return copied;
+			Step copiedSaved = this.save(copied);
+			return copiedSaved;
 		}
 	
 }

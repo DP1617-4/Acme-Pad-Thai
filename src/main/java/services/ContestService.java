@@ -60,8 +60,11 @@ public class ContestService {
 				Collection<Recipe> winners = new ArrayList<Recipe>();
 				List<Recipe> aux = (List<Recipe>) contestRepository.findBestRecipes(contest.getId());
 				for(int i=0;i<4;i++){
-					
-					winners.add(aux.get(i));
+					if(aux.iterator().hasNext()){
+						winners.add(aux.iterator().next());
+					} else {
+						break;	
+					}
 				}
 				return winners;
 			}
@@ -83,8 +86,8 @@ public class ContestService {
 			}
 			
 			public Contest getContestWithMoreRecipesQualified(){
-				
-				return getContestWithMoreRecipesQualified();
+				Contest result = contestRepository.getContestWithMoreRecipesQualified();
+				return result;
 			}
 			
 			public Contest delete2(Contest contest){
