@@ -12,10 +12,10 @@ import repositories.SponsorRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Bill;
 import domain.Campaign;
-import domain.Cook;
 import domain.Folder;
-import domain.MasterClass;
+import domain.SocialIdentity;
 import domain.Sponsor;
 
 @Service
@@ -27,46 +27,27 @@ public class SponsorService {
 	private SponsorRepository sponsorRepository;
 
 	// supporting services -------------------
+	@Autowired
+	private FolderService folderService;
+	
+	@Autowired
+	private LoginService loginService;
 
 	// Basic CRUD methods --------------------
 	public Sponsor create() {
 		Sponsor sponsor = new Sponsor();
-		Collection<Folder> folders = new ArrayList<Folder>();
-		//TODO crear folders para sponsor
-		/*
-		Folder inbox = folderService.create(sponsor);
-		inbox.setName("Inbox");
-		inbox.setSystemFolder(true);
-		inbox.setDeleted(false);
-		folders.add(inbox);
-		
-		Folder outbox = folderService.create(sponsor);
-		outbox.setName("OutBox");
-		outbox.setSystemFolder(true);
-		outbox.setDeleted(false);
-		cook.setFolders(folders);
-		folders.add(outbox);
-		Folder trash = folderService.create(sponsor);
-		trash.setName("Trash");
-		trash.setSystemFolder(true);
-		trash.setDeleted(false);
-		folders.add(trash);
-		Folder spam = folderService.create(sponsor);
-		spam.setName("Spam");
-		spam.setSystemFolder(true);
-		spam.setDeleted(false);
-		folders.add(spam);
-		*/
-		sponsor.setFolders(folders);
+		sponsor.setFolders(new ArrayList<Folder>());
+		sponsor.setSocialIdentities(new ArrayList<SocialIdentity>());
 		sponsor.setCampaigns(new ArrayList<Campaign>());
-		
+		sponsor.setBills(new ArrayList<Bill>());
+
 		UserAccount userAccount = new UserAccount();
 		Authority authority = new Authority();
 		authority.setAuthority(Authority.SPONSOR);
 		Collection<Authority> authorities = new ArrayList<Authority>();
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
-		
+
 		sponsor.setUserAccount(userAccount);
 		return sponsor;
 	}
@@ -76,10 +57,18 @@ public class SponsorService {
 		retrieved = sponsorRepository.findOne(sponsorId);
 		return retrieved;
 	}
+	
+	public Collection<Sponsor> findAll(){
+		Collection<Sponsor> result;
+		result = sponsorRepository.findAll();
+		return result;
+	}
 
 	public Sponsor save(Sponsor sponsor) {
 		Sponsor saved;
 		saved = sponsorRepository.save(sponsor);
+		if(sponsor.getId() <= 0)
+			folderService.initFolders(saved);
 		return saved;
 	}
 
@@ -88,13 +77,27 @@ public class SponsorService {
 	}
 
 	// Auxiliary methods ---------------------
-
+	public Sponsor findByUserAccount(UserAccount userAccount){
+		Sponsor result;
+		result = sponsorRepository.findByPrincipal(userAccount.getId());
+		return result;
+	}
+	
+	@SuppressWarnings("static-access")
+	public Sponsor findByPrincipal() {
+		Sponsor result;
+		UserAccount userAccount;
+		userAccount = loginService.getPrincipal();
+		result = findByUserAccount(userAccount);
+		return result;
+	}
+	
 	// Our other bussiness methods -----------
-	public Collection<Double> calculateMinAvgMaxFromCampaignsOfSponsors() {
+	public Double[][][] calculateMinAvgMaxFromCampaignsOfSponsors() {
 		return sponsorRepository.calculateMinAvgMaxFromCampaignsOfSponsors();
 	}
 
-	public Collection<Double> calculateMinAvgMaxFromCampaignsOfSponsorsByDate() {
+	public Double[][][] calculateMinAvgMaxFromCampaignsOfSponsorsByDate() {
 		return sponsorRepository
 				.calculateMinAvgMaxFromCampaignsOfSponsorsByDate();
 	}
@@ -107,7 +110,7 @@ public class SponsorService {
 		return sponsorRepository.findCompaniesNameOfSponsorsByBills();
 	}
 
-	public Sponsor findInnactiveSponsorInThreeMonths() {
+	public 	Collection<Sponsor> findInnactiveSponsorInThreeMonths() {
 		return sponsorRepository.findInnactiveSponsorInThreeMonths();
 	}
 
@@ -118,10 +121,5 @@ public class SponsorService {
 
 	public Collection<String> findCompaniesNameSpent90Percent() {
 		return sponsorRepository.findCompaniesNameSpent90Percent();
-	}
-	
-	public Sponsor findOneByPrincipal(){
-		Sponsor sponsor = sponsorRepository.findOneByUserAccountId(LoginService.getPrincipal().getId());
-		return sponsor;
 	}
 }

@@ -1,12 +1,16 @@
 package services;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import repositories.BannerRepository;
 import domain.Banner;
+import domain.Sponsor;
 
 @Service
 @Transactional
@@ -17,9 +21,13 @@ public class BannerService {
 	private BannerRepository bannerRepository;
 	
 	//supporting services -------------------
+	@Autowired
+	private SponsorService sponsorService;
 	
 	//Basic CRUD methods --------------------
 	public Banner create() {
+		Sponsor sponsor = sponsorService.findByPrincipal();
+		Assert.notNull(sponsor,"Dear user, you are not a sponsor.");
 		Banner created;
 		created = new Banner();
 		return created;
@@ -31,7 +39,15 @@ public class BannerService {
 		return retrieved;
 	}
 	
+	public Collection<Banner> findAll(){
+		Collection<Banner> banners;
+		banners = bannerRepository.findAll();
+		return banners;	
+	}
+	
 	public Banner save(Banner banner) {
+		Sponsor sponsor = sponsorService.findByPrincipal();
+		Assert.notNull(sponsor,"Dear user, you are not a sponsor.");
 		Banner saved;
 		saved = bannerRepository.save(banner);
 		return saved;

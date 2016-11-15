@@ -1692,7 +1692,16 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 		<property name="URL" value="http://www.endesa.es"/> 
 		<property name="maxNumber" value="20"/> 
 		<property name="timesShown" value="2"/>
+		<property name="timesShownMonth" value="2"/>
 		<property name="campaign" ref="campaign1"/>
+	</bean>
+	
+	<bean id="banner2" class="domain.Banner">
+		<property name="URL" value="http://www.endesa.es"/> 
+		<property name="maxNumber" value="20"/> 
+		<property name="timesShown" value="5"/>
+		<property name="timesShownMonth" value="3"/>
+		<property name="campaign" ref="campaign4"/>
 	</bean>
 	
 	<!-- MASTER CLASS -->

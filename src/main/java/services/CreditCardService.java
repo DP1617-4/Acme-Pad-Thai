@@ -1,6 +1,8 @@
 package services;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.transaction.Transactional;
 
@@ -12,6 +14,7 @@ import repositories.CreditCardRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.CreditCard;
+import domain.Sponsor;
 
 @Service
 @Transactional
@@ -22,24 +25,32 @@ public class CreditCardService {
 	private CreditCardRepository creditCardRepository;
 	
 	//supporting services -------------------
+	@Autowired
+	private SponsorService sponsorService;
 	
 	//Basic CRUD methods --------------------
 	public CreditCard create() {
-		CreditCard created;
-		created = new CreditCard();
-		Assert.isTrue(expirationDate(created));
-		return created;
+		Sponsor sponsor = sponsorService.findByPrincipal();
+		Assert.notNull(sponsor,"Dear user, you are not a sponsor.");
+		CreditCard creditCard = new CreditCard();
+		Assert.isTrue(expirationDate(creditCard));
+		return creditCard;
 	}
 	
 	public CreditCard findOne(int creditCardId) {
-		CreditCard retrieved;
-		retrieved = creditCardRepository.findOne(creditCardId);
+		Sponsor sponsor = sponsorService.findByPrincipal();
+		Assert.notNull(sponsor,"Dear user, you are not a sponsor.");
+		CreditCard retrieved = creditCardRepository.findOne(creditCardId);
 		return retrieved;
 	}
 	
 	public CreditCard save(CreditCard creditCard) {
-		CreditCard saved;
-		saved = creditCardRepository.save(creditCard);
+		UserAccount sponsor;
+		sponsor = LoginService.getPrincipal();
+		Assert.isTrue(creditCard.getSponsor().equals(sponsor));
+		Assert.isTrue(expirationDate(creditCard));
+		
+		CreditCard saved = creditCardRepository.save(creditCard);
 		return saved;
 	}
 	
@@ -51,11 +62,13 @@ public class CreditCardService {
 	@SuppressWarnings("deprecation")
 	private boolean expirationDate(CreditCard creditCard) {
 		boolean res = false;
-		Date moment = new Date();
-		if(creditCard.getExpirationYear() >= moment.getYear()) {
-			if (creditCard.getExpirationMonth() >= moment.getMonth()) {
+		Calendar moment = new GregorianCalendar();
+		if(creditCard.getExpirationYear() == moment.get(Calendar.YEAR)) {
+			if (creditCard.getExpirationMonth() >= moment.get(Calendar.MONTH)) {
 				res = true;
 			}
+		} else if (creditCard.getExpirationYear() > moment.get(Calendar.YEAR)) {
+			res = true;
 		}
 		return res;
 	}
