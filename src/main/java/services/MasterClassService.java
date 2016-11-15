@@ -122,7 +122,9 @@ public class MasterClassService {
 	//Business Methods
 	
 
-	public void promoteDemote(MasterClass masterClass){
+	public void promoteDemote(int masterClassId){
+		MasterClass masterClass;
+		masterClass = masterClassRepository.findOne(masterClassId);
 		adminService.checkAdministrator();
 		masterClass.setPromoted(!masterClass.getPromoted());
 		masterClassRepository.save(masterClass);

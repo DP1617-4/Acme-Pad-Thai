@@ -64,9 +64,7 @@ public class MessageService {
 	public Collection<Message> findAllByFolder(int folderId){
 		Collection<Message> result;
 		folderService.checkPrincipal(folderId);
-		System.out.println("Después de comprobar el principal");
 		result = messageRepository.findByFolderId(folderId);
-		System.out.println("Después de sacar los mensajes de la carpeta");
 		return result;
 	}
 	

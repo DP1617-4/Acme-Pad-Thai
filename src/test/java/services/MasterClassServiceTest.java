@@ -62,44 +62,17 @@ public class MasterClassServiceTest extends AbstractTest {
 		}
 		unauthenticate();
 	}
-	@Test
-	public void testFindOne(){
-		authenticate("cook1");
-		masterClassService.findOneToEdit(121);
-		unauthenticate();
-	}
-	@Test
-	public void testFindAll(){
-		
-	}
-	@Test
-	public void testFindEnrolledByPrincipal(){
-		
-	}
-	@Test
-	public void testFindImpartedByPrincipal(){
-		
-	}
-	@Test
-	public void testPromoteDemote(){
-		
-	}
-	@Test
-	public void testCountPromotedMasterClasses(){
-		
-	}
+	
 	
 	@Test
-	public void testFindCookOrdered(){
-		
+	public void testPromoteDemote(){
+		authenticate("admin1");
+		MasterClass result;
+		masterClassService.promoteDemote(121);
+		authenticate("cook1");
+		result = masterClassService.findOneToEdit(121);
+		Assert.isTrue(result.getPromoted());
 	}
-	@Test
-	public void testAvgPromotedDemoted(){
-		
-	}
-	@Test
-	public void testCalculateAvfLearningMaterial(){
-		
-	}
+	
 
 }
