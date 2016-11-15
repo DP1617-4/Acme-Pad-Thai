@@ -50,8 +50,10 @@ public class MasterClassService {
 	private MessageService messageService;
 	//CRUD
 	
-	public MasterClass create(Cook cook){
+	public MasterClass create(){
 		MasterClass result = new MasterClass();
+		Cook cook;
+		cook = cookService.findByPrincipal();
 		result.setCook(cook);
 		result.setActors(new ArrayList<Actor>());
 		result.setLearningMaterials(new ArrayList<LearningMaterial>());

@@ -110,6 +110,9 @@ public class MessageServiceTest extends AbstractTest {
 		messages = messageService.findAllByFolder(folder.getId());
 		message = messages.iterator().next();
 		messageService.delete(message);
+		messages = messageService.findAllByFolder(folder.getId());
+		System.out.println(message);
+		System.out.println(messages);
 		Assert.isTrue(!messages.contains(message));
 		unauthenticate();
 	}
@@ -131,15 +134,16 @@ public class MessageServiceTest extends AbstractTest {
 		try{
 			messageService.delete(message);
 		}catch(Exception e){
-			System.out.println("Test delete successfull");
+			System.out.println("Test deleteN successfull");
 		}
 		
 		unauthenticate();
 	}
 	@Test
 	public void testFindAllByFolder(){
-		authenticate("user2");
+		authenticate("user1");
 		Collection<Message> result;
+		Folder folder;
 		result = messageService.findAllByFolder(59);
 		Assert.notEmpty(result);
 		unauthenticate();

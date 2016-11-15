@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -12,6 +13,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.NotBlank;
 
 
@@ -80,7 +83,7 @@ public class Message extends DomainEntity {
 
 	@Valid
 	@NotNull
-	@ManyToOne(optional = false)
+	@ManyToOne(optional =false, fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	public Folder getFolder() {
 		return folder;
 	}
@@ -90,7 +93,7 @@ public class Message extends DomainEntity {
 	
 	@Valid
 	@NotNull
-	@ManyToOne(optional = false, fetch=FetchType.LAZY)
+	@ManyToOne(optional =false, fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	public Actor getSender() {
 		return sender;
 	}
@@ -99,7 +102,7 @@ public class Message extends DomainEntity {
 	}
 	@Valid
 	@NotNull
-	@ManyToOne(optional =false)
+	@ManyToOne(optional =false, fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	public Actor getReceiver() {
 		return receiver;
 	}

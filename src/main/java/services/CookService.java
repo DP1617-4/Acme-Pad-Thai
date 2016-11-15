@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
 import domain.Cook;
 import domain.Folder;
 import domain.MasterClass;
@@ -69,11 +71,23 @@ public class CookService {
 	public Cook findOneToEdit(int id){
 		Cook result;
 		result = cookRepository.findOne(id);
+		checkPrincipal(result);
+		return result;
+	}
+	
+	public Cook findOne(int id){
+		Cook result;
+		result = cookRepository.findOne(id);
 		return result;
 	}
 	
 	public Cook save(Cook cook){
 		Cook result;
+		if(cook.getId()<=0){
+			adminService.checkAdministrator();
+		}
+		else
+			checkPrincipal(cook);
 		result = cookRepository.save(cook);
 		if(cook.getId() <= 0)
 			folderService.initFolders(result);
@@ -81,6 +95,7 @@ public class CookService {
 	}
 	
 	public void delete(Cook cook){
+		adminService.checkAdministrator();
 		cookRepository.delete(cook);
 	}
 	
@@ -103,6 +118,12 @@ public class CookService {
 		Collection<Double> result;
 		result = cookRepository.calculateMinMaxAvgDevFromMasterClassesOfCooks();
 		return result;
+	}
+	
+	public void checkPrincipal(Cook cook){
+		Cook prin;
+		prin = findByPrincipal();
+		Assert.isTrue(cook.getId()== prin.getId());
 	}
 
 }

@@ -50,7 +50,7 @@ public class MessageService {
 		result.setMoment(new Date());
 		result.setReceiver(recipient);
 		result.setSender(sender);
-		result.setPriority("Neutral"); //By default neutral
+		result.setPriority("NEUTRAL"); //By default neutral
 		return result;
 	}
 	
@@ -132,7 +132,7 @@ public class MessageService {
 		SystemConfiguration sysConf = sysConfService.findAll().iterator().next();
 		keywords = sysConf.getKeywords();
 		for(String s: keywords){
-			if(message.getBody().contains(s)){
+			if(message.getBody().toLowerCase().contains(s.toLowerCase())){
 				result = true;
 				break;
 			}

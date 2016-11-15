@@ -95,7 +95,7 @@ public class FolderService {
 		folder = folderRepository.findOne(folderId);
 		System.out.println("Antes de buscar el principal");
 		Actor actor = actorService.findByPrincipal();
-		System.out.println("Después");
+		System.out.println("Después, id = " + actor.getId()+ " USer id = "+ actor.getUserAccount().getId());
 		Assert.isTrue(actor.equals(folder.getActor()), "Dear User, you can't edit a folder that doesn't belong to you");
 		System.out.println("Después de la comparación de actores");
 	}
