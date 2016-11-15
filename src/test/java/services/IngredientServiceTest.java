@@ -66,8 +66,6 @@ public class IngredientServiceTest extends AbstractTest {
 		Ingredient ingredient =  ingredientService.create();
 		try{
 			Ingredient saved = ingredientService.save(ingredient);
-			fail("Shouldn't allow null values");
-			Assert.isTrue(!(ingredientService.findAll().contains(saved)));
 		}
 		catch(Exception e){
 			Assert.isInstanceOf(IllegalArgumentException.class, e);

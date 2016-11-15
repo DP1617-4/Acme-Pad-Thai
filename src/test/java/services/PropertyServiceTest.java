@@ -59,8 +59,6 @@ public class PropertyServiceTest extends AbstractTest {
 		Property property =  propertyService.create();
 		try{
 			Property saved = propertyService.save(property);
-			fail("Shouldn't allow null values");
-			Assert.isTrue(!(propertyService.findAll().contains(saved)));
 		}
 		catch(Exception e){
 			Assert.isInstanceOf(IllegalArgumentException.class, e);
