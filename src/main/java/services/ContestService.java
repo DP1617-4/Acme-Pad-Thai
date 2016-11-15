@@ -72,6 +72,8 @@ public class ContestService {
 						winners.add(r);
 					}
 				}
+//				contest.setWinners(winners);
+//				save(contest);
 				return winners;
 			}
 			public void setWon(Contest contest){
@@ -80,6 +82,8 @@ public class ContestService {
 				for(Recipe r : winners){
 					recipeService.winContest(contest,r);
 				}
+				contest.setWinners(winners);
+				save(contest);
 			}
 			
 			public Collection<Double> getMinAvgMaxRecipesQualifiedForContest(){

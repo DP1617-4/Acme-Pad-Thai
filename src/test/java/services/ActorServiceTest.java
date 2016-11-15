@@ -49,7 +49,7 @@ public class ActorServiceTest extends AbstractTest {
 		Actor actor;
 		actor = actorService.findByPrincipal();
 		MasterClass masterClass;
-		masterClass = masterClassService.findOneToEdit(120);
+		masterClass = masterClassService.findOneToEdit(121);
 		actorService.register(masterClass);
 		Assert.isTrue(actor.getEnroled().contains(masterClass));
 		unauthenticate();
