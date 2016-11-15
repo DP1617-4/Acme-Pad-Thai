@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
 import domain.LearningMaterial;
+import domain.MasterClass;
 import domain.PresentationMaterial;
 
 import utilities.AbstractTest;
@@ -38,7 +39,7 @@ public class PresentationMaterialServiceTest extends AbstractTest{
 	@Test
 	public void createTest(){
 		
-		PresentationMaterial created = presentationMaterialService.create(masterClassService.findOne(120));
+		PresentationMaterial created = presentationMaterialService.create(masterClassService.findOne(121));
 		Assert.isNull(created.getAttachment());
 	}
 
@@ -46,8 +47,9 @@ public class PresentationMaterialServiceTest extends AbstractTest{
 	public void savePositiveTest(){
 		
 		super.authenticate("cook1");
-		
-		PresentationMaterial created = presentationMaterialService.create(masterClassService.findOne(120));
+		MasterClass masterClass;
+		masterClass = masterClassService.findOne(121);
+		PresentationMaterial created = presentationMaterialService.create(masterClass);
 		created.setAttachment("http://www.unacosita.com");
 		created.setPath("ROTO2");
 		created.setMaterialAbstract("Rekt");
@@ -55,7 +57,7 @@ public class PresentationMaterialServiceTest extends AbstractTest{
 		
 		PresentationMaterial saved = presentationMaterialService.save(created);
 		
-		Collection<LearningMaterial> allMaterials = learningMaterialService.findAllByMasterClass(120);
+		Collection<LearningMaterial> allMaterials = learningMaterialService.findAllByMasterClass(121);
 		
 		Assert.isTrue(allMaterials.contains(saved));
 	}
@@ -65,7 +67,7 @@ public class PresentationMaterialServiceTest extends AbstractTest{
 		
 		super.authenticate("cook1");
 		
-		PresentationMaterial created = presentationMaterialService.create(masterClassService.findOne(120));
+		PresentationMaterial created = presentationMaterialService.create(masterClassService.findOne(121));
 		created.setAttachment("http://www.unacosita.com");
 		created.setPath("ROTO2");
 		created.setMaterialAbstract("Rekt");
@@ -75,7 +77,7 @@ public class PresentationMaterialServiceTest extends AbstractTest{
 		
 		presentationMaterialService.delete(saved);
 		
-		Collection<LearningMaterial> allMaterials = learningMaterialService.findAllByMasterClass(120);
+		Collection<LearningMaterial> allMaterials = learningMaterialService.findAllByMasterClass(121);
 		
 		Assert.isTrue(!(allMaterials.contains(saved)));
 	}

@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -164,7 +165,7 @@ public class Recipe extends DomainEntity {
 		this.contest = contest;
 	}
 	@Valid
-	@ManyToOne(optional = true)
+	@ManyToOne(optional = true, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
 	public Contest getWonContest() {
 		return wonContest;
 	}

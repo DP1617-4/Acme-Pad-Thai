@@ -113,7 +113,7 @@ public class SocialIdentityServiceTest extends AbstractTest {
 		Actor actor;
 		SocialIdentity socialId;
 		actor = actorService.findByPrincipal();
-		socialId = socialIdService.findOneToEdit(127);
+		socialId = socialIdService.findOneToEdit(128);
 		Assert.isTrue(actor.getSocialIdentities().contains(socialId));
 		unauthenticate();
 	}

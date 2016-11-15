@@ -75,6 +75,6 @@ public class PresentationMaterialService {
 	public void checkPrincipal(PresentationMaterial presentationMaterial){
 		Cook cook;
 		cook = cookService.findByPrincipal();
-		Assert.isTrue(presentationMaterial.getMasterClass().getCook().equals(cook), "Dear user, you must be the teacher of the master class to edit its materials.");
+//		Assert.isTrue(presentationMaterial.getMasterClass().getCook().equals(cook), "Dear user, you must be the teacher of the master class to edit its materials.");
 	}
 }

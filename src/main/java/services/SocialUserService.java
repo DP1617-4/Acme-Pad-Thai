@@ -76,13 +76,13 @@ public class SocialUserService {
 				save(socialUser);
 			}
 			
-			public void comment(SocialUser socialUser, Comment comment){
-				
-				Assert.isTrue(socialUser.equals(findByPrincipal()));
-				Collection<Comment> comments = socialUser.getComments();
-				comments.add(comment);
-				socialUser.setComments(comments);
-			}
+//			public void comment(Comment comment){
+//				SocialUser socialUser;
+//				socialUser = findByPrincipal();
+//				Collection<Comment> comments = socialUser.getComments();
+//				comments.add(comment);
+//				socialUser.setComments(comments);
+//			}
 			
 			public Score like(Recipe recipe){
 				

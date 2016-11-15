@@ -38,7 +38,7 @@ public class VideoMaterialServiceTest extends AbstractTest{
 	@Test
 	public void createTest(){
 		
-		VideoMaterial created = videoMaterialService.create(masterClassService.findOne(120));
+		VideoMaterial created = videoMaterialService.create(masterClassService.findOne(121));
 		Assert.isNull(created.getAttachment());
 	}
 
@@ -47,7 +47,7 @@ public class VideoMaterialServiceTest extends AbstractTest{
 		
 		super.authenticate("cook1");
 		
-		VideoMaterial created = videoMaterialService.create(masterClassService.findOne(120));
+		VideoMaterial created = videoMaterialService.create(masterClassService.findOne(121));
 		created.setAttachment("http://www.unacosita.com");
 		created.setIdentifier("ROTO2");
 		created.setMaterialAbstract("Rekt");
@@ -55,7 +55,7 @@ public class VideoMaterialServiceTest extends AbstractTest{
 		
 		VideoMaterial saved = videoMaterialService.save(created);
 		
-		Collection<LearningMaterial> allMaterials = learningMaterialService.findAllByMasterClass(120);
+		Collection<LearningMaterial> allMaterials = learningMaterialService.findAllByMasterClass(121);
 		
 		Assert.isTrue(allMaterials.contains(saved));
 	}
@@ -65,7 +65,7 @@ public class VideoMaterialServiceTest extends AbstractTest{
 		
 		super.authenticate("cook1");
 		
-		VideoMaterial created = videoMaterialService.create(masterClassService.findOne(120));
+		VideoMaterial created = videoMaterialService.create(masterClassService.findOne(121));
 		created.setAttachment("http://www.unacosita.com");
 		created.setIdentifier("ROTO2");
 		created.setMaterialAbstract("Rekt");
@@ -75,7 +75,7 @@ public class VideoMaterialServiceTest extends AbstractTest{
 		
 		videoMaterialService.delete(saved);
 		
-		Collection<LearningMaterial> allMaterials = learningMaterialService.findAllByMasterClass(120);
+		Collection<LearningMaterial> allMaterials = learningMaterialService.findAllByMasterClass(121);
 		
 		Assert.isTrue(!(allMaterials.contains(saved)));
 	}

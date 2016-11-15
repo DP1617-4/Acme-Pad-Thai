@@ -54,8 +54,15 @@ public class NutritionistServiceTest extends AbstractTest{
 		public void testSavePositive(){
 			
 			Nutritionist nutritionist = nutritionistService.create();
-			Curricula curricula = curriculaService.create();
-			nutritionist.setCurricula(curricula);
+//			Curricula curricula = curriculaService.create();
+//			nutritionist.setCurricula(curricula);
+			nutritionist.setName("Pepa");
+			nutritionist.setEmail("pepa@Yahoo.es");
+			nutritionist.setPhone("1234");
+			nutritionist.setPostalAddress("Calle palos del río");
+			nutritionist.setSurname("Tester");
+			nutritionist.getUserAccount().setUsername("PepaLaNutri");
+			nutritionist.getUserAccount().setPassword("NutriaReshu");
 			Nutritionist saved = nutritionistService.save(nutritionist);
 			Assert.isTrue(nutritionistService.findAll().contains(saved));
 			

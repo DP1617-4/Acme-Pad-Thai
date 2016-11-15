@@ -2,6 +2,7 @@ package domain;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
@@ -22,7 +23,7 @@ public class Nutritionist extends SocialUser{
 		private Curricula curricula;
 
 		@Valid
-		@OneToOne(optional = true, mappedBy= "nutritionist")
+		@OneToOne(optional = true, mappedBy= "nutritionist", cascade = CascadeType.REMOVE)
 		public Curricula getCurricula() {
 			return curricula;
 		}

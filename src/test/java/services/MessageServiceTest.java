@@ -61,6 +61,7 @@ public class MessageServiceTest extends AbstractTest {
 		Actor recipient;
 		Actor sender;
 		recipient = actorService.findByPrincipal();
+		unauthenticate();
 		authenticate("user2");
 		result = messageService.create(recipient);
 		sender = actorService.findByPrincipal();
@@ -69,6 +70,7 @@ public class MessageServiceTest extends AbstractTest {
 		result.setTitle("TestM");
 		result.setBody("TestB");
 		sent = messageService.send(result);
+		unauthenticate();
 		authenticate("user1");
 		inbox = folderService.findSystemFolder(recipient, "inbox");
 		sents = messageService.findAllByFolder(inbox.getId());
