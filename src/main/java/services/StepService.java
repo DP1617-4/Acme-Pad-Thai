@@ -57,7 +57,6 @@ public class StepService {
 		public void delete(Step step){
 			
 			stepRepository.delete(step);
-			
 		}
 		
 		//Auxiliary methods

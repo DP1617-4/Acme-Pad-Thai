@@ -1,13 +1,10 @@
 package services;
 
-import static org.junit.Assert.fail;
-
-import java.util.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.GregorianCalendar;
+import java.util.Date;
 import java.util.Locale;
 
 import javax.transaction.Transactional;
@@ -21,6 +18,7 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Contest;
+import domain.Recipe;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
@@ -163,5 +161,21 @@ public class ContestServiceTest extends AbstractTest {
 	public void testMinAvgMaxRecipesQualifiedForContest(){
 		Collection<Double> result = contestService.getMinAvgMaxRecipesQualifiedForContest();
 		Assert.notEmpty(result);
+	}
+	
+	@Test
+	public void	testGetContestWinners(){
+		Contest contest = contestService.findOne(102);
+		Collection<Recipe> winners = contestService.getContestWinners(contest);
+		System.out.println(winners.toString());
+		Assert.notEmpty(winners);
+	}
+	
+	@Test
+	public void testSetWon(){
+		Contest contest = contestService.findOne(102);
+		contestService.setWon(contest);
+		contest = contestService.findOne(102);
+		Assert.notEmpty(contest.getWinners());
 	}
 }
