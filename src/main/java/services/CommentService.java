@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import repositories.CommentRepository;
 import domain.Comment;
+import domain.Recipe;
+import domain.SocialUser;
 
 @Service
 @Transactional
@@ -20,15 +22,19 @@ public class CommentService {
 		private CommentRepository commentRepository;
 		
 		//supporting services-------------------
-		
+		@Autowired
+		private SocialUserService socialUserService;
 		//Basic CRUD methods-------------------
 		
-		public Comment create(){
+		public Comment create(Recipe recipe){
 			
 			Comment created;
-			Date moment = new Date(System.currentTimeMillis()-100);
 			created = new Comment();
+			Date moment = new Date(System.currentTimeMillis()-100);
+			SocialUser socialUser = socialUserService.findByPrincipal();
+			created.setSocialUser(socialUser);
 			created.setDate(moment);
+			created.setRecipe(recipe);
 			return created;
 		}
 		

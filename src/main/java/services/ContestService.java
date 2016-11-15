@@ -2,6 +2,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -56,41 +57,14 @@ public class ContestService {
 			//Other Bussiness Methods
 			
 			public Collection<Recipe> getContestWinners(Contest contest){
-				Collection<Recipe> possibles = new ArrayList<Recipe>();
 				Collection<Recipe> winners = new ArrayList<Recipe>();
-				possibles = contest.getQualified();
-				for (Recipe r : possibles){
-					Recipe first = null;
-					Recipe second = null;
-					Recipe third = null;
-				if(first == null){
-					first = r;
-				} if(r.getScore() >= first.getScore()){
-					first = r;
-				} else {
-					if(second == null){
-						second = r;
-						}
-					if(r.getScore() >= second.getScore()){
-						second = r;
-						}
-					else {
-						if(third == null){
-							third = r;
-							}
-						if(r.getScore() >= third.getScore()){
-							third = r;
-							}
-					}
-					}
-				winners.add(first);
-				winners.add(second);
-				winners.add(third);
+				List<Recipe> aux = (List<Recipe>) contestRepository.findBestRecipes(contest.getId());
+				for(int i=0;i<4;i++){
+					
+					winners.add(aux.get(i));
 				}
 				return winners;
-				
 			}
-			
 			public void setWon(Contest contest){
 				Collection<Recipe> winners = new ArrayList<Recipe>(this.getContestWinners(contest));
 				for(Recipe r : winners){
@@ -99,8 +73,13 @@ public class ContestService {
 			}
 			
 			public Collection<Double> getMinAvgMaxRecipesQualifiedForContest(){
-				
-				return contestRepository.getMinAvgMaxRecipesQualifiedForContest();
+				Collection<Double> result = new ArrayList<Double>();
+				Double[] aux = contestRepository.getMinAvgMaxRecipesQualifiedForContest();
+				for(int i=0;i<aux.length;i++){
+					
+					result.add(aux[i]);
+				}
+				return result;
 			}
 			
 			public Contest getContestWithMoreRecipesQualified(){
