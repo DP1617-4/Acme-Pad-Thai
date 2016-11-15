@@ -17,6 +17,7 @@ import domain.Contest;
 import domain.Quantity;
 import domain.Recipe;
 import domain.Score;
+import domain.SocialUser;
 import domain.Step;
 import domain.User;
 
@@ -62,6 +63,25 @@ public class RecipeService {
 		Recipe retrieved;
 		retrieved = recipeRepository.findOne(recipeId);
 		return retrieved;
+	}
+	
+	public Collection<Recipe> findAllByUserFollowed(SocialUser socialUser){
+		
+		Collection<Recipe> result = new ArrayList<Recipe>();
+		Collection<User> followed = recipeRepository.findAllUserFollowed();
+		
+		for(User u : followed){
+			
+			for(Recipe r : u.getRecipes()){
+				
+				if(r.getDeleted()==false){
+					
+					result.add(r);
+				}
+			}
+		}
+		
+		return result;
 	}
 
 	public Recipe save(Recipe recipe){
