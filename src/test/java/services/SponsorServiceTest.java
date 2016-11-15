@@ -1,7 +1,6 @@
 package services;
 
-import static org.junit.Assert.fail;
-
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
@@ -14,8 +13,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.Actor;
+import domain.Bill;
+import domain.Campaign;
 import domain.CreditCard;
+import domain.Folder;
+import domain.SocialIdentity;
 import domain.Sponsor;
 
 //TODO: this file provides an incomplete template; complete it with the appropriate annotations and method implementations.
@@ -34,32 +36,28 @@ public class SponsorServiceTest extends AbstractTest{
 	private SponsorService sponsorService;
 	@Autowired
 	private CreditCardService creditCardService;
-	@Autowired
-	private ActorService actorService;
 	
 	//Tests----------------------------
 	@Test
 	public void testCreate() {
 		authenticate("sponsor1");
-		Actor actor;
 		Sponsor sponsor;
-		actor = actorService.findByPrincipal();
 		sponsor = sponsorService.create();
-		Assert.isTrue(actor.equals(sponsor));
-		Assert.isNull(sponsor.getCompanyName());
-		Assert.isNull(sponsor.getCreditCard());
+		sponsor = sponsorService.findByPrincipal();
+		Assert.notNull(sponsor.getCompanyName());
+		Assert.notNull(sponsor.getCreditCard());
 		unauthenticate();
 	}
 	
 	@Test
 	public void testSave() {
 		authenticate("sponsor1");
-		Sponsor sponsor;
-		CreditCard creditCard = creditCardService.create();
-		sponsor = sponsorService.create();
+		Sponsor sponsor = sponsorService.create();
+		sponsor = sponsorService.findByPrincipal();
 		sponsor.setCompanyName("Tututua Company");
-		sponsor.setCreditCard(creditCard);
 		Sponsor saved = sponsorService.save(sponsor);
+		Collection<Sponsor> allSponsors = sponsorService.findAll();
+		Assert.isTrue(allSponsors.contains(saved));
 		unauthenticate();
 	}
 	
@@ -72,7 +70,6 @@ public class SponsorServiceTest extends AbstractTest{
 		sponsor.setCreditCard(null);
 		try {
 			Sponsor saved = sponsorService.save(sponsor);
-			fail("Null values are not allowed.");
 		}
 		catch(Exception e) {
 			Assert.isInstanceOf(IllegalArgumentException.class, e);
@@ -83,35 +80,29 @@ public class SponsorServiceTest extends AbstractTest{
 	@Test
 	public void testDelete() {
 		authenticate("sponsor1");
-		Sponsor sponsor;
-		CreditCard creditCard = creditCardService.create();
-		sponsor = sponsorService.create();
-		sponsor.setCompanyName("Tututua Company");
+		Sponsor sponsor = sponsorService.create();
+		
+		Collection<Bill> bills = new ArrayList<Bill>();
+		sponsor.setBills(bills);
+		Collection<Campaign> campaigns = new ArrayList<Campaign>();
+		sponsor.setCampaigns(campaigns);
+		CreditCard creditCard = creditCardService.create(sponsor);
 		sponsor.setCreditCard(creditCard);
+		sponsor.setName("Lalala");
+		sponsor.setSurname("jujuju");
+		sponsor.setPhone("C821");
+		sponsor.setCompanyName("Tratrata");
+		sponsor.setEmail("sponsor@gmail.com");
+		sponsor.setPostalAddress("calle sponsors");
+		Collection<Folder> folders = new ArrayList<Folder>();
+		sponsor.setFolders(folders);
+		Collection<SocialIdentity> socials = new ArrayList<SocialIdentity>();
+		sponsor.setSocialIdentities(socials);
+		
 		Sponsor saved = sponsorService.save(sponsor);
 		sponsorService.delete(saved);
 		Collection<Sponsor> allSponsors = sponsorService.findAll();
-		Assert.isTrue(!(allSponsors.contains(saved)));
+		Assert.isTrue(!allSponsors.contains(saved));
 		unauthenticate();
 	}
-	
-	@Test
-	public void testDeleteNegative() {
-		
-	}
-	
-	@Test
-	public void testFindAll() {
-		authenticate("sponsor2");
-		Sponsor sponsor;
-		CreditCard creditCard = creditCardService.create();
-		sponsor = sponsorService.create();
-		sponsor.setCompanyName("Tututua Company");
-		sponsor.setCreditCard(creditCard);
-		Sponsor saved = sponsorService.save(sponsor);
-		Collection<Sponsor> allSponsors = sponsorService.findAll();
-		Assert.isTrue((allSponsors.contains(saved)));
-		unauthenticate();
-	}
-	
 }

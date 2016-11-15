@@ -44,6 +44,7 @@ public class SystemConfigurationService {
 	}
 	
 	public Collection<SystemConfiguration> findAll(){
+		adminService.checkAdministrator();
 		Collection<SystemConfiguration> result;
 		result = systemConfigurationRepository.findAll();
 		return result;

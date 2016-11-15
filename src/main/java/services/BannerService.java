@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 
 import repositories.BannerRepository;
 import domain.Banner;
+import domain.Campaign;
 import domain.Sponsor;
 
 @Service
@@ -25,11 +26,12 @@ public class BannerService {
 	private SponsorService sponsorService;
 	
 	//Basic CRUD methods --------------------
-	public Banner create() {
+	public Banner create(Campaign campaign) {
 		Sponsor sponsor = sponsorService.findByPrincipal();
 		Assert.notNull(sponsor,"Dear user, you are not a sponsor.");
 		Banner created;
 		created = new Banner();
+		created.setCampaign(campaign);
 		return created;
 	}
 	
@@ -60,5 +62,7 @@ public class BannerService {
 	//Auxiliary methods ---------------------
 	
 	//Our other bussiness methods -----------
-	
+	public Collection<Banner> paidBanners(int id) {
+		return bannerRepository.numberOfBanners(id);
+	}
 }

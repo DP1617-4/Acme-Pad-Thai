@@ -1,7 +1,7 @@
 package services;
 
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Collection;
 import java.util.GregorianCalendar;
 
 import javax.transaction.Transactional;
@@ -29,11 +29,11 @@ public class CreditCardService {
 	private SponsorService sponsorService;
 	
 	//Basic CRUD methods --------------------
-	public CreditCard create() {
-		Sponsor sponsor = sponsorService.findByPrincipal();
+	public CreditCard create(Sponsor sponsor) {
+		sponsor = sponsorService.findByPrincipal();
 		Assert.notNull(sponsor,"Dear user, you are not a sponsor.");
 		CreditCard creditCard = new CreditCard();
-		Assert.isTrue(expirationDate(creditCard));
+		creditCard.setSponsor(sponsor);
 		return creditCard;
 	}
 	
@@ -44,11 +44,14 @@ public class CreditCardService {
 		return retrieved;
 	}
 	
+	public Collection<CreditCard> findAll() {
+		return creditCardRepository.findAll();
+	}
+	
 	public CreditCard save(CreditCard creditCard) {
-		UserAccount sponsor;
-		sponsor = LoginService.getPrincipal();
-		Assert.isTrue(creditCard.getSponsor().equals(sponsor));
-		Assert.isTrue(expirationDate(creditCard));
+		UserAccount sponsor = LoginService.getPrincipal();
+		Assert.isTrue(creditCard.getSponsor().getUserAccount().equals(sponsor));
+//		Assert.isTrue(expirationDate(creditCard));
 		
 		CreditCard saved = creditCardRepository.save(creditCard);
 		return saved;
@@ -59,7 +62,6 @@ public class CreditCardService {
 	}
 	
 	//Auxiliary methods ---------------------
-	@SuppressWarnings("deprecation")
 	private boolean expirationDate(CreditCard creditCard) {
 		boolean res = false;
 		Calendar moment = new GregorianCalendar();
