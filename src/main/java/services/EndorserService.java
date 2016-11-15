@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.EndorserRepository;
+import security.LoginService;
+import security.UserAccount;
 import domain.Endorser;
 import domain.Nutritionist;
 
@@ -28,6 +30,7 @@ public class EndorserService {
 			
 			Endorser created;
 			created = new Endorser();
+			created.setCurricula(nutritionistService.findByPrincipal().getCurricula());
 			return created;
 		}
 		
@@ -59,10 +62,15 @@ public class EndorserService {
 		
 		//Auxiliary methods
 
-		public void checkPrincipal(Endorser e){
+		public Boolean checkPrincipal(Endorser e){
 			
-			Nutritionist n = nutritionistService.findByPrincipal();
-			Assert.isTrue(n.getCurricula().getEndorsers().contains(e));
+			Boolean result = false;
+			UserAccount nutritionistUser = e.getCurricula().getNutritionist().getUserAccount();
+			UserAccount principal = LoginService.getPrincipal();
+			if(nutritionistUser.equals(principal)){
+				result = true;
+			}
+			return result;
 			
 		}
 		//Our other bussiness methods

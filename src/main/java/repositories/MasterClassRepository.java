@@ -22,13 +22,10 @@ public interface MasterClassRepository extends JpaRepository<MasterClass, Intege
 	@Query("select count(l)*1.0/(select count(m) from MasterClass m) from LearningMaterial l group by l.class")
 	Double calculateAvgLearningMaterialsPerMasterClass();
 
-
 	@Query("select mc from MasterClass mc where mc.cook.id = ?1 and mc.deleted = FALSE")
 	Collection<MasterClass> findAllByCookId(int cookId);
 
 	@Query("select a.enroled from Actor a where a.id = ?1")
 	Collection<MasterClass> findMasterClassesByActor (int id);
-
-
-
+	
 }

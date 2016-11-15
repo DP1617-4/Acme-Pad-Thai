@@ -22,7 +22,7 @@ public class Nutritionist extends SocialUser{
 		private Curricula curricula;
 
 		@Valid
-		@OneToOne(optional = true)
+		@OneToOne(optional = true, mappedBy= "nutritionist")
 		public Curricula getCurricula() {
 			return curricula;
 		}
