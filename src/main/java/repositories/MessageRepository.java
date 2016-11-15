@@ -14,4 +14,6 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
 	
 	@Query("select m from Message m where m.folder.id = ?1")
 	Collection<Message> findByFolderId(int id);
+
+	
 }

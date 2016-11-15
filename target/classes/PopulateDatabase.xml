@@ -454,7 +454,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	
 	<!-- SPAM -->
 	<bean id="spam1" class="domain.Folder">
-		<property name="name" value="Spam" />
+		<property name="name" value="spambox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="user1" />
@@ -465,7 +465,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="spam2" class="domain.Folder">
-		<property name="name" value="Spam" />
+		<property name="name" value="spambox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="user2" />
@@ -476,7 +476,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="spam3" class="domain.Folder">
-		<property name="name" value="Spam" />
+		<property name="name" value="spambox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="user3" />
@@ -487,7 +487,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="spam4" class="domain.Folder">
-		<property name="name" value="Spam" />
+		<property name="name" value="spambox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="nutritionist1" />
@@ -498,7 +498,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="spam5" class="domain.Folder">
-		<property name="name" value="Spam" />
+		<property name="name" value="spambox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="nutritionist2" />
@@ -509,7 +509,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="spam6" class="domain.Folder">
-		<property name="name" value="Spam" />
+		<property name="name" value="spambox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="admin1" />
@@ -520,7 +520,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="spam7" class="domain.Folder">
-		<property name="name" value="Spam" />
+		<property name="name" value="spambox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="sponsor1" />
@@ -531,7 +531,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="spam8" class="domain.Folder">
-		<property name="name" value="Spam" />
+		<property name="name" value="spambox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="cook1" />
@@ -542,7 +542,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="spam9" class="domain.Folder">
-		<property name="name" value="Spam" />
+		<property name="name" value="spambox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="cook2" />
@@ -553,7 +553,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="spam10" class="domain.Folder">
-		<property name="name" value="Spam" />
+		<property name="name" value="spambox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="sponsor2" />
@@ -564,7 +564,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="spam11" class="domain.Folder">
-		<property name="name" value="Spam" />
+		<property name="name" value="spambox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="admin2" />
@@ -576,7 +576,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	
 	<!-- TRASH -->
 	<bean id="trash1" class="domain.Folder">
-		<property name="name" value="Trash" />
+		<property name="name" value="trashbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="user1" />
@@ -587,7 +587,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="trash2" class="domain.Folder">
-		<property name="name" value="Trash" />
+		<property name="name" value="trashbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="user2" />
@@ -598,7 +598,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="trash3" class="domain.Folder">
-		<property name="name" value="Trash" />
+		<property name="name" value="trashbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="user3" />
@@ -609,7 +609,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="trash4" class="domain.Folder">
-		<property name="name" value="Trash" />
+		<property name="name" value="trashbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="nutritionist1" />
@@ -620,7 +620,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="trash5" class="domain.Folder">
-		<property name="name" value="Trash" />
+		<property name="name" value="trashbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="nutritionist2" />
@@ -631,7 +631,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="trash6" class="domain.Folder">
-		<property name="name" value="Trash" />
+		<property name="name" value="trashbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="admin1" />
@@ -642,7 +642,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="trash7" class="domain.Folder">
-		<property name="name" value="Trash" />
+		<property name="name" value="trashbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="sponsor1" />
@@ -653,7 +653,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="trash8" class="domain.Folder">
-		<property name="name" value="Trash" />
+		<property name="name" value="trashbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="cook1" />
@@ -664,7 +664,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="trash9" class="domain.Folder">
-		<property name="name" value="Trash" />
+		<property name="name" value="trashbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="cook2" />
@@ -675,7 +675,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="trash10" class="domain.Folder">
-		<property name="name" value="Trash" />
+		<property name="name" value="trashbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="sponsor2" />
@@ -686,7 +686,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="trash11" class="domain.Folder">
-		<property name="name" value="Trash" />
+		<property name="name" value="trashbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="admin2" />
@@ -698,7 +698,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	
 	<!-- INBOX -->	
 	<bean id="inbox1" class="domain.Folder">
-		<property name="name" value="Inbox" />
+		<property name="name" value="inbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="user1" />
@@ -709,7 +709,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="inbox2" class="domain.Folder">
-		<property name="name" value="Inbox" />
+		<property name="name" value="inbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="user2" />
@@ -720,7 +720,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="inbox3" class="domain.Folder">
-		<property name="name" value="Inbox" />
+		<property name="name" value="inbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="user3" />
@@ -731,7 +731,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="inbox4" class="domain.Folder">
-		<property name="name" value="Inbox" />
+		<property name="name" value="inbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="nutritionist1" />
@@ -742,7 +742,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="inbox5" class="domain.Folder">
-		<property name="name" value="Inbox" />
+		<property name="name" value="inbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="nutritionist2" />
@@ -753,7 +753,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="inbox6" class="domain.Folder">
-		<property name="name" value="Inbox" />
+		<property name="name" value="inbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="admin1" />
@@ -764,7 +764,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="inbox7" class="domain.Folder">
-		<property name="name" value="Inbox" />
+		<property name="name" value="inbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="sponsor1" />
@@ -775,7 +775,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="inbox8" class="domain.Folder">
-		<property name="name" value="Inbox" />
+		<property name="name" value="inbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="cook1" />
@@ -786,7 +786,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="inbox9" class="domain.Folder">
-		<property name="name" value="Inbox" />
+		<property name="name" value="inbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="cook2" />
@@ -797,7 +797,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="inbox10" class="domain.Folder">
-		<property name="name" value="Inbox" />
+		<property name="name" value="inbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="sponsor2" />
@@ -808,7 +808,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="inbox11" class="domain.Folder">
-		<property name="name" value="Inbox" />
+		<property name="name" value="inbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="admin2" />
@@ -820,7 +820,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	
 	<!-- OUTBOX -->	
 	<bean id="outbox1" class="domain.Folder">
-		<property name="name" value="Outbox" />
+		<property name="name" value="outbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="user1" />
@@ -831,7 +831,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="outbox2" class="domain.Folder">
-		<property name="name" value="Outbox" />
+		<property name="name" value="outbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="user2" />
@@ -842,7 +842,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="outbox3" class="domain.Folder">
-		<property name="name" value="Outbox" />
+		<property name="name" value="outbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="user3" />
@@ -853,7 +853,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="outbox4" class="domain.Folder">
-		<property name="name" value="Outbox" />
+		<property name="name" value="outbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="nutritionist1" />
@@ -864,7 +864,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="outbox5" class="domain.Folder">
-		<property name="name" value="Outbox" />
+		<property name="name" value="outbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="nutritionist2" />
@@ -875,7 +875,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="outbox6" class="domain.Folder">
-		<property name="name" value="Outbox" />
+		<property name="name" value="outbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="admin1" />
@@ -886,7 +886,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="outbox7" class="domain.Folder">
-		<property name="name" value="Outbox" />
+		<property name="name" value="outbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="sponsor1" />
@@ -897,7 +897,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="outbox8" class="domain.Folder">
-		<property name="name" value="Outbox" />
+		<property name="name" value="outbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="cook1" />
@@ -908,7 +908,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="outbox9" class="domain.Folder">
-		<property name="name" value="Outbox" />
+		<property name="name" value="outbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="cook2" />
@@ -919,7 +919,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="outbox10" class="domain.Folder">
-		<property name="name" value="Outbox" />
+		<property name="name" value="outbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="sponsor2" />
@@ -930,7 +930,7 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 	</bean>
 	
 	<bean id="outbox11" class="domain.Folder">
-		<property name="name" value="Outbox" />
+		<property name="name" value="outbox" />
 		<property name="systemFolder" value="true" />
 		<property name="deleted" value="false" />
 		<property name="actor" ref="admin2" />
@@ -1551,6 +1551,12 @@ CUANDO CREAMOS LA ASOCIACIÓN DESDE EL OTRO LADO.-->
 		</property>
 	</bean>
 	
+	<!--  Scores para las recetas copiadas -->
+	<bean id="score6" class="domain.Score">
+		<property name="likes" value="true" />
+		<property name="socialUser" ref="user3"/>
+		<property name="recipe" ref="recipe1copy"/>
+	</bean>
 	
 	<!-- CURRICULA -->
 	<bean id="curricula1" class="domain.Curricula">

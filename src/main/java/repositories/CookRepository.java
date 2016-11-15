@@ -15,6 +15,6 @@ public interface CookRepository extends JpaRepository<Cook, Integer> {
 	Collection<Double> calculateMinMaxAvgDevFromMasterClassesOfCooks();
 	
 	@Query("select c from Cook c where c.userAccount.id = ?1")
-	Cook findOneByUserAccountId(int userAccountId);
-	
+	Cook findByUserAccountId(int id);
+
 }

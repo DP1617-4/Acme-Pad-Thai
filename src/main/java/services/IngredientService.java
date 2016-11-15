@@ -1,14 +1,17 @@
 package services;
 
+
+import javax.transaction.Transactional;
+
+
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import repositories.IngredientRepository;
 import domain.Ingredient;
+
 
 @Service
 @Transactional
@@ -49,6 +52,11 @@ public class IngredientService {
 			
 			ingredientRepository.delete(ingredient);
 			
+		}
+		
+		public Collection<Ingredient> findAll(){
+			
+			return ingredientRepository.findAll();
 		}
 		
 		//Other Bussiness Methods

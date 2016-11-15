@@ -7,68 +7,55 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import domain.Cook;
 import domain.Folder;
 import domain.MasterClass;
+import domain.SocialIdentity;
 import repositories.CookRepository;
 import security.Authority;
+
 import security.LoginService;
 import security.UserAccount;
 
 @Service
 @Transactional
 public class CookService {
+
+	//Constructor
+	public CookService(){
+		super();
+	}
 	
+	//Managed Repository
 	@Autowired
 	private CookRepository cookRepository;
 	
-	//TODO Comprobar administrador creando cook
-	/*
-	@Autowired
-	private AdministratorService adminsitratorService;
-	*/
+	//Auxiliary Services
 	
-	// Simple CRUD Methods -------------------------------------------------
+	@Autowired
+	private LoginService loginService;
+	
+	@Autowired
+	private FolderService folderService;
+	
+	@Autowired
+	private AdministratorService adminService;
+	
+	
+	
+	//CRUD
 	
 	public Cook create(){
-		//TODO Comprobar administrador creando cook
-		/*
-		Administrator administrator = administratorService.findOneByPrincipal();
-		Assert.notNull(administrator); 
-		*/
-		Cook cook = new Cook();
-		Collection<Folder> folders = new ArrayList<Folder>();
-		//TODO crear folders para cook
-		/*
-		Folder inbox = folderService.create(cook);
-		inbox.setName("Inbox");
-		inbox.setSystemFolder(true);
-		inbox.setDeleted(false);
-		folders.add(inbox);
+		adminService.checkAdministrator();
 		
-		Folder outbox = folderService.create(cook);
-		outbox.setName("OutBox");
-		outbox.setSystemFolder(true);
-		outbox.setDeleted(false);
-		cook.setFolders(folders);
-		folders.add(outbox);
-
-		Folder trash = folderService.create(cook);
-		trash.setName("Trash");
-		trash.setSystemFolder(true);
-		trash.setDeleted(false);
-		folders.add(trash);
-
-		Folder spam = folderService.create(cook);
-		spam.setName("Spam");
-		spam.setSystemFolder(true);
-		spam.setDeleted(false);
-		folders.add(spam);
-		*/
-		cook.setFolders(folders);
-		cook.setMasterClasses(new ArrayList<MasterClass>());
+		Cook result = new Cook();
+		result.setFolders(new ArrayList<Folder>());
+		result.setMasterClasses(new ArrayList<MasterClass>());
+		result.setSocialIdentities(new ArrayList<SocialIdentity>());
 		
+
 		UserAccount userAccount = new UserAccount();
 		Authority authority = new Authority();
 		authority.setAuthority(Authority.COOK);
@@ -76,19 +63,67 @@ public class CookService {
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
 		
-		cook.setUserAccount(userAccount);
-		//TODO comprobar como meter socialIdentity
-		/*
-		cook.setSocialIdentities(socialIdenttities);
-		*/
-		
-		return cook;
+		result.setUserAccount(userAccount);
+		return result;
+	}
+
+	
+	public Cook findOneToEdit(int id){
+		Cook result;
+		result = cookRepository.findOne(id);
+		checkPrincipal(result);
+		return result;
 	}
 	
-	//Other Methods --------------------------------------------------------
-
-	public Cook findOneByPrincipal(){
-		Cook cook = cookRepository.findOneByUserAccountId(LoginService.getPrincipal().getId());
-		return cook;
+	public Cook findOne(int id){
+		Cook result;
+		result = cookRepository.findOne(id);
+		return result;
 	}
+	
+	public Cook save(Cook cook){
+		Cook result;
+		if(cook.getId()<=0){
+			adminService.checkAdministrator();
+		}
+		else
+			checkPrincipal(cook);
+		result = cookRepository.save(cook);
+		if(cook.getId() <= 0)
+			folderService.initFolders(result);
+		return result;
+	}
+	
+	public void delete(Cook cook){
+		adminService.checkAdministrator();
+		cookRepository.delete(cook);
+	}
+	
+	public Cook findByUserAccount(UserAccount userAccount){
+		Cook result;
+		result = cookRepository.findByUserAccountId(userAccount.getId());
+		return result;
+	}
+	
+	public Cook findByPrincipal(){
+		Cook result;
+		UserAccount userAccount;
+		userAccount = loginService.getPrincipal();
+		result = findByUserAccount(userAccount);
+		return result;
+	}
+	
+	//Business Methods
+	public Collection<Double> calculateMinMaxAvgDevFromMasterClassesOfCooks() {
+		Collection<Double> result;
+		result = cookRepository.calculateMinMaxAvgDevFromMasterClassesOfCooks();
+		return result;
+	}
+	
+	public void checkPrincipal(Cook cook){
+		Cook prin;
+		prin = findByPrincipal();
+		Assert.isTrue(cook.getId()== prin.getId());
+	}
+
 }
