@@ -50,7 +50,7 @@ public class MessageService {
 		result.setMoment(new Date());
 		result.setReceiver(recipient);
 		result.setSender(sender);
-		result.setPriority("Neutral"); //By default neutral
+		result.setPriority("NEUTRAL"); //By default neutral
 		return result;
 	}
 	
@@ -64,9 +64,7 @@ public class MessageService {
 	public Collection<Message> findAllByFolder(int folderId){
 		Collection<Message> result;
 		folderService.checkPrincipal(folderId);
-		System.out.println("Después de comprobar el principal");
 		result = messageRepository.findByFolderId(folderId);
-		System.out.println("Después de sacar los mensajes de la carpeta");
 		return result;
 	}
 	
@@ -132,7 +130,7 @@ public class MessageService {
 		SystemConfiguration sysConf = sysConfService.findAll().iterator().next();
 		keywords = sysConf.getKeywords();
 		for(String s: keywords){
-			if(message.getBody().contains(s)){
+			if(message.getBody().toLowerCase().contains(s.toLowerCase())){
 				result = true;
 				break;
 			}
