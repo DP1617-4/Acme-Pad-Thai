@@ -34,7 +34,7 @@ public class LearningMaterialService {
 	//Other Methods --------------------------------------------------------
 	
 	public Collection<LearningMaterial> findAllByMasterClass(int masterClassId){
-		masterClassService.checkEnrolled(masterClassId);
+
 		Collection<LearningMaterial> learningMaterial = new ArrayList<LearningMaterial>();;
 		learningMaterial = learningMaterialRepository.findAllByMasterClass(masterClassId); 
 		

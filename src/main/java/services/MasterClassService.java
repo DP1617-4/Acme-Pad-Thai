@@ -69,6 +69,11 @@ public class MasterClassService {
 		return result;
 	}
 	
+	public MasterClass findOne(int id){
+		
+		return masterClassRepository.findOne(id);
+	}
+	
 	public MasterClass save(MasterClass masterClass){
 		MasterClass result;
 		checkPrincipalCook(masterClass);
