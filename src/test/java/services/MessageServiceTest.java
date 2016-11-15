@@ -43,7 +43,6 @@ public class MessageServiceTest extends AbstractTest {
 		Actor recipient;
 		Actor sender;
 		recipient = actorService.findByPrincipal();
-		System.out.println(recipient.getId());
 		authenticate("user2");
 		result = messageService.create(recipient);
 		sender = actorService.findByPrincipal();
@@ -110,6 +109,7 @@ public class MessageServiceTest extends AbstractTest {
 		messages = messageService.findAllByFolder(folder.getId());
 		message = messages.iterator().next();
 		messageService.delete(message);
+		messages = messageService.findAllByFolder(folder.getId());
 		Assert.isTrue(!messages.contains(message));
 		unauthenticate();
 	}
@@ -121,25 +121,23 @@ public class MessageServiceTest extends AbstractTest {
 		Folder folder;
 		Actor actor;
 		actor = actorService.findByPrincipal();
-		System.out.println("Antes de folder");
 		folder = folderService.findSystemFolder(actor, "outbox");
-		System.out.println("Antes de mensajes");
 		messages = messageService.findAllByFolder(folder.getId());
-		System.out.println("Después de mensajes");
 		message = messages.iterator().next();
 		authenticate("admin1");
 		try{
 			messageService.delete(message);
 		}catch(Exception e){
-			System.out.println("Test delete successfull");
+			System.out.println("Test deleteN successfull");
 		}
 		
 		unauthenticate();
 	}
 	@Test
 	public void testFindAllByFolder(){
-		authenticate("user2");
+		authenticate("user1");
 		Collection<Message> result;
+		Folder folder;
 		result = messageService.findAllByFolder(59);
 		Assert.notEmpty(result);
 		unauthenticate();
