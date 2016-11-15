@@ -1,6 +1,8 @@
 package services;
 
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,7 @@ import domain.Comment;
 import domain.Recipe;
 import domain.Score;
 import domain.SocialUser;
+import domain.User;
 
 @Service
 @Transactional
@@ -39,7 +42,8 @@ public class SocialUserService {
 
 			public SocialUser save(SocialUser user){
 				
-				SocialUser saved = socialUserRepository.save(user);
+				SocialUser saved;
+				saved = socialUserRepository.save(user);
 				
 				return saved;
 				
@@ -53,23 +57,31 @@ public class SocialUserService {
 			
 			public SocialUser findByPrincipal(){
 				
-				return socialUserRepository.findOneByUserAccountId(loginService.getPrincipal().getId());
+				SocialUser socialUser = socialUserRepository.findOneByUserAccountId(loginService.getPrincipal().getId());
+				return socialUser;
 			}
 			
+			public Collection<SocialUser> findAll(){
+				return socialUserRepository.findAll();
+			}
+ 			
 			//Auxiliary methods
 
 			//Our other bussiness methods
 			
 			public void follow(SocialUser followed){
-				
-				findByPrincipal().getFollowed().add(followed);
-				followed.getFollowers().add(findByPrincipal());
+
+				SocialUser socialUser = findByPrincipal();
+				socialUser.getFollowed().add(followed);
+				save(socialUser);
 			}
 			
 			public void comment(SocialUser socialUser, Comment comment){
 				
 				Assert.isTrue(socialUser.equals(findByPrincipal()));
-				socialUser.getComments().add(comment);
+				Collection<Comment> comments = socialUser.getComments();
+				comments.add(comment);
+				socialUser.setComments(comments);
 			}
 			
 			public Score like(Recipe recipe){

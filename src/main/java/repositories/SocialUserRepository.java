@@ -10,8 +10,7 @@ import domain.User;
 @Repository
 public interface SocialUserRepository extends JpaRepository<SocialUser, Integer> {
 	
-	
-	@Query("select su from SocialUser su where su.userAccount.id = ?1")
-	SocialUser findOneByUserAccountId(int userAccountId);
 
+	@Query("select u from SocialUser u where u.userAccount.id = ?1")
+	SocialUser findOneByUserAccountId(int userAccountId);
 }
