@@ -21,6 +21,8 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer>{
 	@Query("select r.user from Recipe r group by r.user Order By avg(r.scores.size) DESC")
 	Collection<User> getUsersByAvgOfLikesAndDislikesOfRecipe();
 	
+	@Query("select uf from SocialUser u join u.followed uf where uf.class= domain.User")
+	Collection<User> findAllUserFollowed();
 	
 
 }
