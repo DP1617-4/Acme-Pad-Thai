@@ -58,18 +58,25 @@ public class ContestService {
 			
 			public Collection<Recipe> getContestWinners(Contest contest){
 				Collection<Recipe> winners = new ArrayList<Recipe>();
+				Collection<Recipe> todas = contest.getQualified();
 				List<Recipe> aux = (List<Recipe>) contestRepository.findBestRecipes(contest.getId());
-				for(int i=0;i<4;i++){
-					if(aux.iterator().hasNext()){
+				for(int i=0;i<3;i++){
+					if(aux.iterator().hasNext()&&!(winners.contains(aux.iterator().next()))){
 						winners.add(aux.iterator().next());
 					} else {
 						break;	
 					}
 				}
+				for(Recipe r: todas){
+					if(winners.size()<3 && !(winners.contains(r))){
+						winners.add(r);
+					}
+				}
 				return winners;
 			}
 			public void setWon(Contest contest){
-				Collection<Recipe> winners = new ArrayList<Recipe>(this.getContestWinners(contest));
+				Collection<Recipe> winners = new ArrayList<Recipe>();
+				winners = this.getContestWinners(contest);
 				for(Recipe r : winners){
 					recipeService.winContest(contest,r);
 				}
