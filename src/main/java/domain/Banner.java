@@ -26,7 +26,7 @@ public class Banner extends DomainEntity {
 			private String URL;
 			private int maxNumber;
 			private int timesShown;
-			
+			private int timesShownMonth;
 			
 			@NotBlank
 			@URL
@@ -46,7 +46,7 @@ public class Banner extends DomainEntity {
 				this.maxNumber = maxNumber;
 			}
 			
-			@NotNull
+			@Min(0)
 			public int getTimesShown() {
 				return timesShown;
 			}
@@ -54,9 +54,15 @@ public class Banner extends DomainEntity {
 				this.timesShown = timesShown;
 			}
 			
+			@Min(0)
+			public int getTimesShownMonth() {
+				return timesShownMonth;
+			}
+			public void setTimesShownMonth(int timesShownMonth) {
+				this.timesShownMonth = timesShownMonth;
+			}
 			
 			//Relations
-			
 			private Campaign campaign;
 
 			@NotNull

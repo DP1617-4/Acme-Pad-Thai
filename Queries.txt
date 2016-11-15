@@ -397,6 +397,7 @@ select s.companyName from Sponsor s join s.bills b where
  from Campaign c join c.banners ban, SystemConfiguration sys))*(0.9);
  
  
+ 
  Comprueba que las facturas a evaluar estén pagadas, después calcula la suma de las facturas pagadas y
  la compara con la suma máxima de la fee por el número de veces que se ha mostrado un banner,
  esta se obtiene comparandola con todas las posibles sumas ya que no se le puede hacer un max()
