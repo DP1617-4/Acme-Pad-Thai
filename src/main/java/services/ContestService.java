@@ -83,8 +83,8 @@ public class ContestService {
 			}
 			
 			public Contest getContestWithMoreRecipesQualified(){
-				
-				return getContestWithMoreRecipesQualified();
+				Contest result = contestRepository.getContestWithMoreRecipesQualified();
+				return result;
 			}
 			
 			public Contest delete2(Contest contest){

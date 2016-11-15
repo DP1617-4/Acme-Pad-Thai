@@ -1,7 +1,5 @@
 package services;
 
-import static org.junit.Assert.fail;
-
 import java.util.Collection;
 
 import javax.transaction.Transactional;

@@ -2,9 +2,13 @@ package services;
 
 import static org.junit.Assert.fail;
 
-import java.sql.Date;
-import java.util.ArrayList;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import javax.transaction.Transactional;
 
@@ -16,11 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.Category;
 import domain.Contest;
-import domain.Quantity;
-import domain.Recipe;
-import domain.Step;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
@@ -30,7 +30,6 @@ import domain.Step;
 public class ContestServiceTest extends AbstractTest {
 
 	//Service under test---------------
-	
 	@Autowired
 	private ContestService contestService;
 	
@@ -39,7 +38,6 @@ public class ContestServiceTest extends AbstractTest {
 	public void testCreatePositive() {
 		super.authenticate("admin1");
 		Contest contest =  contestService.create();
-		Assert.isTrue(!contest.getDeleted());
 		
 	}
 	
@@ -47,8 +45,26 @@ public class ContestServiceTest extends AbstractTest {
 	public void testSavePositive() {
 		super.authenticate("admin1");
 		Contest contest =  contestService.create();
-		contest.setOpeningTime(Date.valueOf("2016/11/23"));
-		contest.setClosingTime(Date.valueOf("2016/12/23"));
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+		Date dateInit;
+		try {
+			dateInit = format.parse("2016-11-25");
+			contest.setOpeningTime(dateInit);
+
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		DateFormat format2 = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+		Date dateEnd;
+		try {
+			dateEnd = format2.parse("2016-12-25");
+			contest.setClosingTime(dateEnd);
+
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		contest.setTitle("Concurso4");
 		Contest saved = contestService.save(contest);
 		
@@ -64,7 +80,6 @@ public class ContestServiceTest extends AbstractTest {
 		Contest contest =  contestService.create();
 		try{
 			Contest saved = contestService.save(contest);
-			fail("Shouldn't allow null values");
 		}
 		catch(Exception e){
 			Assert.isInstanceOf(IllegalArgumentException.class, e);
@@ -75,8 +90,26 @@ public class ContestServiceTest extends AbstractTest {
 	public void testDeletePositive() {
 		super.authenticate("admin1");
 		Contest contest =  contestService.create();
-		contest.setOpeningTime(Date.valueOf("2016/11/23"));
-		contest.setClosingTime(Date.valueOf("2016/12/23"));
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+		Date dateInit;
+		try {
+			dateInit = format.parse("2016-11-25");
+			contest.setOpeningTime(dateInit);
+
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		DateFormat format2 = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+		Date dateEnd;
+		try {
+			dateEnd = format2.parse("2016-12-25");
+			contest.setClosingTime(dateEnd);
+
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		contest.setTitle("Concurso4");
 		Contest saved = contestService.save(contest);
 		
@@ -92,13 +125,43 @@ public class ContestServiceTest extends AbstractTest {
 	public void testDelete2() {
 		super.authenticate("admin1");
 		Contest contest =  contestService.create();
-		contest.setOpeningTime(Date.valueOf("2016/11/23"));
-		contest.setClosingTime(Date.valueOf("2016/12/23"));
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+		Date dateInit;
+		try {
+			dateInit = format.parse("2016-11-25");
+			contest.setOpeningTime(dateInit);
+
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		DateFormat format2 = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+		Date dateEnd;
+		try {
+			dateEnd = format2.parse("2016-12-25");
+			contest.setClosingTime(dateEnd);
+
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		contest.setTitle("Concurso4");
 		Contest saved = contestService.save(contest);
 		Contest deleted = contestService.delete2(saved);
 		
-		Assert.isTrue(contestService.findAllNotDeleted().contains(deleted));
+		Assert.isTrue(!contestService.findAllNotDeleted().contains(deleted));
 		Assert.isTrue(deleted.getDeleted()==true);
+	}
+	
+	@Test
+	public void testContestWithMoreRecipiesQualified(){
+		Contest result = contestService.getContestWithMoreRecipesQualified();
+		Assert.notNull(result);
+	}
+	
+	@Test
+	public void testMinAvgMaxRecipesQualifiedForContest(){
+		Collection<Double> result = contestService.getMinAvgMaxRecipesQualifiedForContest();
+		Assert.notEmpty(result);
 	}
 }

@@ -1,7 +1,5 @@
 package services;
 
-import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -29,8 +27,7 @@ public class StepServiceTest extends AbstractTest {
 	
 	@Autowired
 	private StepService stepService;
-	@Autowired
-	private UserService userService;
+	//supporting services-------------------
 	@Autowired
 	private RecipeService recipeService;
 	
@@ -39,24 +36,22 @@ public class StepServiceTest extends AbstractTest {
 	@Test
 	public void testCreatePositive() {
 		super.authenticate("user1");
-		Recipe recipe = recipeService.create();
-		Recipe conSteps = recipeService.save(recipe);
-		Step step =  stepService.create(conSteps);
-		
+		Recipe recipe = recipeService.findOne(76);
+		Step step =  stepService.create(recipe);
+		Assert.notNull(step.getRecipe());
 	}
 	
 	@Test
 	public void testSavePositive() {
 		super.authenticate("user1");
-		Recipe recipe = recipeService.create();
-		Recipe conSteps = recipeService.save(recipe);
-		Step step =  stepService.create(conSteps);
+		Recipe recipe = recipeService.findOne(76);
+		Step step =  stepService.create(recipe);
 		step.setHints("example of hints");
 		
 		Collection<String> pictures = new ArrayList<String>();
 		pictures.add("http://dasdlasdkjas.com");
 		pictures.add("http://omfg.org");
-		
+		step.setDescription("Funciona pls");
 		step.setPictures(pictures);
 		step.setStepNumber(2);
 		Step saved = stepService.save(step);
@@ -70,12 +65,10 @@ public class StepServiceTest extends AbstractTest {
 	@Test
 	public void testSaveNegative() {
 		super.authenticate("user1");
-		Recipe recipe = recipeService.create();
-		Recipe conSteps = recipeService.save(recipe);
-		Step step =  stepService.create(conSteps);
+		Recipe recipe = recipeService.findOne(76);
+		Step step =  stepService.create(recipe);
 		try{
 			Step saved = stepService.save(step);
-			fail("Shouldn't allow null values");
 		}
 		catch(Exception e){
 			Assert.isInstanceOf(IllegalArgumentException.class, e);
@@ -85,15 +78,14 @@ public class StepServiceTest extends AbstractTest {
 	@Test
 	public void testDeletePositive() {
 		super.authenticate("user1");
-		Recipe recipe = recipeService.create();
-		Recipe conSteps = recipeService.save(recipe);
-		Step step =  stepService.create(conSteps);
+		Recipe recipe = recipeService.findOne(76);
+		Step step =  stepService.create(recipe);
 		step.setHints("example of hints");
 		
 		Collection<String> pictures = new ArrayList<String>();
 		pictures.add("http://dasdlasdkjas.com");
 		pictures.add("http://omfg.org");
-		
+		step.setDescription("Funciona pls");
 		step.setPictures(pictures);
 		step.setStepNumber(2);
 		Step saved = stepService.save(step);
@@ -109,17 +101,14 @@ public class StepServiceTest extends AbstractTest {
 	@Test
 	public void testCreateStepCopy() {
 		super.authenticate("user1");
-		Recipe recipe = recipeService.create();
-		Recipe conSteps = recipeService.save(recipe);
-		Step step =  stepService.create(conSteps);
+		Recipe recipe = recipeService.findOne(76);
+		Step step =  stepService.create(recipe);
 		step.setHints("example of hints");
-		
+		step.setDescription("Funciona pls");
 		Collection<String> pictures = new ArrayList<String>();
 		pictures.add("http://dasdlasdkjas.com");
 		pictures.add("http://omfg.org");
 		step.setPictures(pictures);
-		
-		step.setRecipe(conSteps);
 		step.setStepNumber(3);
 		Step saved = stepService.save(step);
 		Step copy = stepService.createCopy(saved);
@@ -132,6 +121,7 @@ public class StepServiceTest extends AbstractTest {
 		Assert.isTrue(saved.getId()!=copy.getId());
 		Assert.isTrue(saved.getPictures().containsAll(copy.getPictures()));
 		Assert.isTrue(saved.getStepNumber()==(copy.getStepNumber()));
+		Assert.isTrue(saved.getRecipe().equals(copy.getRecipe()));
 		
 	}
 }
