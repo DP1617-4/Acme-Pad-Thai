@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.CampaignRepository;
-import security.LoginService;
-import security.UserAccount;
+import domain.Banner;
 import domain.Campaign;
 import domain.Sponsor;
 
@@ -29,24 +28,24 @@ public class CampaignService {
 	private SponsorService sponsorService;
 	
 	//Basic CRUD methods --------------------
-	public Campaign create() { 
-		Sponsor sponsor = sponsorService.findOneByPrincipal();
-		Assert.notNull(sponsor,"Dear user, you are not a sponsor.");
-		Campaign created;
-		created = new Campaign();
+	public Campaign create(Sponsor sponsor) { 
+		Campaign created = new Campaign();
+		created.setSponsor(sponsor);
 //		Date moment = new Date(System.currentTimeMillis()-100);
 //		Assert.isTrue(moment.before(created.getStartDate()));
 //		Assert.isTrue(created.getStartDate().before(created.getEndDate()));
 		created.setDeleted(false);
 		created.setStarred(false);
-		created.setSponsor(sponsor);
+		created.setBanners(new ArrayList<Banner>());
 		return created;
 	}
 	
 	public Campaign findOne(int campaignId) {
-		Campaign retrieved;
-		retrieved = campaignRepository.findOne(campaignId);
-		return retrieved;
+		Campaign result;
+		result = campaignRepository.findOne(campaignId);
+		Assert.notNull(result);
+		checkPrincipalSponsor(result);
+		return result;
 	}
 	
 	public Collection<Campaign> findAllNotDeleted() {
@@ -59,21 +58,20 @@ public class CampaignService {
 		return notDeleted;
 	}
 	
-	public Campaign save(Campaign campaign) { // Fechas en futuro lo haremos también en Javascript.
-		Campaign saved;
-		Date moment = new Date(System.currentTimeMillis()-100);
-		Assert.isTrue(moment.before(campaign.getStartDate()));
-		Assert.isTrue(campaign.getStartDate().before(campaign.getEndDate()));
-		saved = campaignRepository.save(campaign);
-		return saved;
+	public Campaign save(Campaign campaign) {
+		Campaign result;
+		checkPrincipalSponsor(campaign);
+		result = campaignRepository.save(campaign);
+		return result;
 	}
 	
 	public void delete(Campaign campaign) {
+		checkPrincipalSponsor(campaign);
 		campaignRepository.delete(campaign);
 	}
 	
 	//Auxiliary methods ---------------------
-	private boolean activeCampaign(Campaign c) {
+	public boolean activeCampaign(Campaign c) {
 		boolean res = false;
 		Date moment = new Date();
 		if(moment.after(c.getStartDate()) && moment.before(c.getEndDate())) {
@@ -82,20 +80,25 @@ public class CampaignService {
 		return res;
 	}
 	
-	private boolean campaignPassed(Campaign c) {
+	public boolean campaignPassed(Campaign c) {
 		boolean res = false;
 		Date moment = new Date();
-		if(moment.after(c.getStartDate())) {
+		if(moment.after(c.getEndDate())) {
 			res = true;
 		}
 		return res;
 	}
 	
+	public void checkPrincipalSponsor(Campaign campaign){
+		Sponsor sponsor;
+		sponsor = sponsorService.findByPrincipal();
+		Assert.isTrue(campaign.getSponsor().equals(sponsor));
+	}
+	
 	//Our other bussiness methods -----------
 	public Campaign save2(Campaign campaign) { // Requirement 33.1
-		UserAccount sponsor;
-		sponsor = LoginService.getPrincipal();
-		Assert.isTrue(campaign.getSponsor().equals(sponsor));
+		Sponsor sponsor = sponsorService.findByPrincipal();
+		Assert.notNull(sponsor,"Dear user, you are not a sponsor.");
 		Assert.isTrue(!campaignPassed(campaign));
 		Assert.isTrue(!activeCampaign(campaign));
 		Campaign saved = this.save(campaign);
@@ -103,19 +106,13 @@ public class CampaignService {
 	}
 	
 	public Campaign delete2(Campaign campaign) { // Requirement 33.1
-		UserAccount sponsor;
-		sponsor = LoginService.getPrincipal();
-		Assert.isTrue(campaign.getSponsor().equals(sponsor));
+		Sponsor sponsor = sponsorService.findByPrincipal();
+		Assert.notNull(sponsor,"Dear user, you are not a sponsor.");
 		Assert.isTrue(!campaignPassed(campaign));
 		Assert.isTrue(!activeCampaign(campaign));
 		campaign.setDeleted(true);
-		Campaign saved = this.save(campaign); // Al borrar, no deberia borrarse del repo?
+		Campaign saved = this.save(campaign);
 		return saved;
 	}
 	
-//	public Campaign restore(Campaign campaign){ TIENE QUE ESTAR ESTO??
-//		campaign.setDeleted(false);
-//		Campaign saved = this.save(campaign);
-//		return saved;
-//	}
 }
