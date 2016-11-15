@@ -2,6 +2,7 @@ package services;
 
 import static org.junit.Assert.fail;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -80,8 +81,6 @@ public class RecipeServiceTest extends AbstractTest {
 		Recipe recipe =  recipeService.create();
 		try{
 			Recipe saved = recipeService.save(recipe);
-			fail("Shouldn't allow null values");
-			Assert.isTrue(!(recipeService.findAll().contains(saved)));
 		}
 		catch(Exception e){
 			Assert.isInstanceOf(IllegalArgumentException.class, e);

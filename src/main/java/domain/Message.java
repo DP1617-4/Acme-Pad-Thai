@@ -4,7 +4,9 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -79,7 +81,7 @@ public class Message extends DomainEntity {
 
 	@Valid
 	@NotNull
-	@ManyToOne(optional = false)
+	@ManyToOne(optional =false, fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	public Folder getFolder() {
 		return folder;
 	}
@@ -89,7 +91,7 @@ public class Message extends DomainEntity {
 	
 	@Valid
 	@NotNull
-	@ManyToOne(optional = false)
+	@ManyToOne(optional =false, fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	public Actor getSender() {
 		return sender;
 	}
@@ -98,7 +100,7 @@ public class Message extends DomainEntity {
 	}
 	@Valid
 	@NotNull
-	@ManyToOne(optional =false)
+	@ManyToOne(optional =false, fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	public Actor getReceiver() {
 		return receiver;
 	}

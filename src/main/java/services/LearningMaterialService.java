@@ -9,11 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import repositories.LearningMaterialRepository;
-import repositories.PresentationMaterialRepository;
-import repositories.TextMaterialRepository;
-import repositories.VideoMaterialRepository;
 import domain.LearningMaterial;
-import domain.MasterClass;
 
 @Service
 @Transactional
@@ -38,7 +34,7 @@ public class LearningMaterialService {
 	//Other Methods --------------------------------------------------------
 	
 	public Collection<LearningMaterial> findAllByMasterClass(int masterClassId){
-		masterClassService.checkEnrolled(masterClassId);
+
 		Collection<LearningMaterial> learningMaterial = new ArrayList<LearningMaterial>();;
 		learningMaterial = learningMaterialRepository.findAllByMasterClass(masterClassId); 
 		

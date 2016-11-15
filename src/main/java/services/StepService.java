@@ -1,7 +1,6 @@
 package services;
 
 import java.util.Collection;
-import java.util.Random;
 
 import javax.transaction.Transactional;
 
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import repositories.StepRepository;
+import domain.Recipe;
 import domain.Step;
 
 
@@ -21,15 +21,16 @@ public class StepService {
 		private StepRepository stepRepository;
 		
 		//supporting services-------------------
-		//@Autowired
-		//private StepService stepService;
+//		@Autowired
+//		private RecipeService recipeService;
 		
 		//Basic CRUD methods-------------------
 		
-		public Step create(){
+		public Step create(Recipe recipe){
 			
 			Step created;
 			created = new Step();
+			created.setRecipe(recipe);
 			return created;
 		}
 		
@@ -56,18 +57,10 @@ public class StepService {
 		public void delete(Step step){
 			
 			stepRepository.delete(step);
-			
 		}
 		
 		//Auxiliary methods
-		public char randomLetter(){
-			char result;
-			String alphabet= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-			Random random = new Random();
-	        result = alphabet.charAt(random.nextInt(52));
-			return result;
-		}
-		
+
 		//Our other bussiness methods
 		
 		public Step createCopy(Step step){
@@ -77,8 +70,9 @@ public class StepService {
 			copied.setPictures(step.getPictures());
 			copied.setHints(step.getHints());
 			copied.setStepNumber(step.getStepNumber());
-			
-			return copied;
+			copied.setRecipe(step.getRecipe());
+			Step copiedSaved = this.save(copied);
+			return copiedSaved;
 		}
 	
 }

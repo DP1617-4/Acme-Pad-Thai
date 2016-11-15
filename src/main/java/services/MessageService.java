@@ -47,10 +47,10 @@ public class MessageService {
 		Message result = new Message();
 		Actor sender;
 		sender = actorService.findByPrincipal();
-		result.setMoment(new Date(System.currentTimeMillis()-100));
+		result.setMoment(new Date());
 		result.setReceiver(recipient);
 		result.setSender(sender);
-		result.setPriority("Neutral"); //By default neutral
+		result.setPriority("NEUTRAL"); //By default neutral
 		return result;
 	}
 	
@@ -63,16 +63,17 @@ public class MessageService {
 	
 	public Collection<Message> findAllByFolder(int folderId){
 		Collection<Message> result;
+		folderService.checkPrincipal(folderId);
 		result = messageRepository.findByFolderId(folderId);
 		return result;
 	}
 	
-	public Message save(Message message){
-		Message result;
-		folderService.checkPrincipal(message.getFolder());
-		result = messageRepository.save(message);
-		return result;
-	}
+//	public Message save(Message message){
+//		Message result;
+//		folderService.checkPrincipal(message.getFolder());
+//		result = messageRepository.save(message);
+//		return result;
+//	}
 	
 	public void delete(Message message){
 		Actor actor;
@@ -91,11 +92,13 @@ public class MessageService {
 
 	
 	public Message send(Message message){
+		checkPrincipalSender(message);
 		Message result;
+		Message copy;
 		Boolean spam;
 		Folder outbox;
 		Folder recipientFolder;
-		message.setMoment(new Date(System.currentTimeMillis()-100));
+		message.setMoment(new Date(System.currentTimeMillis()-1));
 		spam = checkSpam(message);
 		if (spam){
 			recipientFolder = folderService.findSystemFolder(message.getReceiver(), "spambox");
@@ -105,16 +108,17 @@ public class MessageService {
 			message.setFolder(recipientFolder);
 		}
 		result = messageRepository.save(message);
-		// Till now we have received the message from the form and have saved it in the recipient folder
+		
 		outbox = folderService.findSystemFolder(message.getSender(), "outbox");
 		message.setFolder(outbox);
-		result = messageRepository.save(message);
+		copy = messageRepository.save(message);
 		return result;
 	}
 	
 	public Message move(Message message, Folder folder){
 		Message result;
 		checkPrincipal(message);
+		folderService.checkPrincipal(folder);
 		message.setFolder(folder);
 		result = messageRepository.save(message);
 		return result;
@@ -126,7 +130,11 @@ public class MessageService {
 		SystemConfiguration sysConf = sysConfService.findAll().iterator().next();
 		keywords = sysConf.getKeywords();
 		for(String s: keywords){
-			if(message.getBody().contains(s)){
+			if(message.getBody().toLowerCase().contains(s.toLowerCase())){
+				result = true;
+				break;
+			}
+			else if(message.getTitle().contains(s)){
 				result = true;
 				break;
 			}

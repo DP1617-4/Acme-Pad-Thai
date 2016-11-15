@@ -52,6 +52,11 @@ public class PropertyService {
 			
 		}
 		
+		public Collection<Property> findAll(){
+			
+			return propertyRepository.findAll();
+		}
+		
 		//Other Bussiness Methods
 		
 		public Property delete2(Property property){

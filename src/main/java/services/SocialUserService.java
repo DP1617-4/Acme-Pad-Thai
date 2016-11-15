@@ -52,12 +52,8 @@ public class SocialUserService {
 			}
 			
 			public SocialUser findByPrincipal(){
-				SocialUser result;
-				UserAccount userAccount;
 				
-				userAccount = loginService.getPrincipal();
-				result = findOne(userAccount.getId());
-				return result;
+				return socialUserRepository.findOneByUserAccountId(loginService.getPrincipal().getId());
 			}
 			
 			//Auxiliary methods
