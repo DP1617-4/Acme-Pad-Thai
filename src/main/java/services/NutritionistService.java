@@ -1,14 +1,28 @@
 package services;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import repositories.NutritionistRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Comment;
+import domain.Cook;
+import domain.Curricula;
+import domain.Folder;
+import domain.MasterClass;
 import domain.Nutritionist;
+import domain.Recipe;
+import domain.Score;
+import domain.SocialIdentity;
+import domain.SocialUser;
 
 @Service
 @Transactional
@@ -23,12 +37,30 @@ public class NutritionistService {
 			@Autowired
 			private LoginService loginService;
 			
+			@Autowired
+			private AdministratorService adminService;
+			
 			//Basic CRUD methods-------------------
 			
 			public Nutritionist create(){
 				
-				Nutritionist created;
-				created = new Nutritionist();
+				Nutritionist created = new Nutritionist();
+				created.setComments(new ArrayList<Comment>());
+				created.setEnroled(new ArrayList<MasterClass>());
+				created.setFolders(new ArrayList<Folder>());
+				created.setFollowed(new ArrayList<SocialUser>());
+				created.setFollowers(new ArrayList<SocialUser>());
+			    created.setScores(new ArrayList<Score>());
+			    created.setSocialIdentities(new ArrayList<SocialIdentity>());
+				
+				UserAccount userAccount = new UserAccount();
+				Authority authority = new Authority();
+				authority.setAuthority(Authority.NUTRITIONIST);
+				Collection<Authority> authorities = new ArrayList<Authority>();
+				authorities.add(authority);
+				userAccount.setAuthorities(authorities);
+				
+				created.setUserAccount(userAccount);
 				return created;
 			}
 			
@@ -41,12 +73,9 @@ public class NutritionistService {
 			
 			public Nutritionist findByPrincipal(){
 				
-				Nutritionist nutritionist;
-				UserAccount userAccount;
-				
-				userAccount = loginService.getPrincipal();
-				nutritionist = findOne(userAccount.getId());
-				
+			    UserAccount userAccount = loginService.getPrincipal();
+			    Nutritionist nutritionist;
+				nutritionist = nutritionistRepository.findOneByUserAccountId(userAccount.getId());
 				return nutritionist;
 			}
 
@@ -62,6 +91,11 @@ public class NutritionistService {
 				
 				nutritionistRepository.delete(nutritionist);
 				
+			}
+			
+			public Collection<Nutritionist> findAll(){
+				
+				return nutritionistRepository.findAll();
 			}
 			
 			//Auxiliary methods

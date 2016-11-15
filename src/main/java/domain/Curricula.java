@@ -4,12 +4,14 @@ import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
@@ -33,7 +35,6 @@ public class Curricula extends DomainEntity{
 	
 
 	@URL
-	
 	@NotBlank
 	public String getPicture() {
 		return picture;
@@ -44,7 +45,6 @@ public class Curricula extends DomainEntity{
 	}
 
 	@NotBlank
-	
 	public String getEducation() {
 		return education;
 	}
@@ -54,7 +54,6 @@ public class Curricula extends DomainEntity{
 	}
 
 	@NotBlank
-	
 	public String getExperience() {
 		return experience;
 	}
@@ -64,7 +63,6 @@ public class Curricula extends DomainEntity{
 	}
 
 	@NotBlank
-	
 	public String getHobbies() {
 		return hobbies;
 	}
@@ -89,7 +87,7 @@ public class Curricula extends DomainEntity{
 	private Nutritionist nutritionist;
 
 	@Valid
-	@OneToMany(mappedBy = "curricula")
+	@OneToMany(mappedBy = "curricula", cascade= CascadeType.REMOVE)
 	public Collection<Endorser> getEndorsers() {
 		return endorsers;
 	}

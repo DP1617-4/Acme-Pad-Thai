@@ -50,8 +50,10 @@ public class MasterClassService {
 	private MessageService messageService;
 	//CRUD
 	
-	public MasterClass create(Cook cook){
+	public MasterClass create(){
 		MasterClass result = new MasterClass();
+		Cook cook;
+		cook = cookService.findByPrincipal();
 		result.setCook(cook);
 		result.setActors(new ArrayList<Actor>());
 		result.setLearningMaterials(new ArrayList<LearningMaterial>());
@@ -125,7 +127,9 @@ public class MasterClassService {
 	//Business Methods
 	
 
-	public void promoteDemote(MasterClass masterClass){
+	public void promoteDemote(int masterClassId){
+		MasterClass masterClass;
+		masterClass = masterClassRepository.findOne(masterClassId);
 		adminService.checkAdministrator();
 		masterClass.setPromoted(!masterClass.getPromoted());
 		masterClassRepository.save(masterClass);
