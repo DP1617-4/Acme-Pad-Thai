@@ -24,10 +24,10 @@ public class CategoryService {
 			
 			//Basic CRUD methods-------------------
 			
-			public Category create(){
+			public Category create(Category category){
 				
-				Category created;
-				created = new Category();
+				Category created = new Category();
+					created.setFather(category);
 				return created;
 			}
 			
