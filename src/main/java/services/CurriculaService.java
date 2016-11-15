@@ -1,12 +1,17 @@
 package services;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.CurriculaRepository;
+import security.LoginService;
+import security.UserAccount;
 import domain.Curricula;
+import domain.Endorser;
 import domain.Nutritionist;
 
 @Service
@@ -29,6 +34,8 @@ public class CurriculaService {
 		Curricula created;
 		created = new Curricula();
 		created.setDeleted(false);
+		created.setNutritionist(nutritionistService.findByPrincipal());	
+		created.setEndorsers(new ArrayList<Endorser>());
 		return created;
 	}
 	
@@ -36,14 +43,16 @@ public class CurriculaService {
 		
 		Curricula retrieved;
 		retrieved = curriculaRepository.findOne(curriculaId);
-		checkPrincipal(retrieved);
+		Assert.isTrue(checkPrincipal(retrieved));
 		return retrieved;
 	}
 
 	public Curricula save(Curricula curricula){
 		
-		checkPrincipal(curricula);
+		Assert.notNull(curricula);
 		Curricula saved = curriculaRepository.save(curricula);
+		nutritionistService.findByPrincipal().setCurricula(saved);
+		Assert.isTrue(checkPrincipal(curricula));
 		
 		
 		return saved;
@@ -52,17 +61,35 @@ public class CurriculaService {
 	
 	public void delete(Curricula curricula){
 		
-		checkPrincipal(curricula);
+		Assert.isTrue(checkPrincipal(curricula));
 		curriculaRepository.delete(curricula);
 		
 	}
 	
 	//Auxiliary methods
 	
-	public void checkPrincipal(Curricula c){
+	public Boolean checkPrincipal(Curricula c){
 		
-		Nutritionist nutritionist = nutritionistService.findByPrincipal();
-		Assert.isTrue(c.equals(nutritionist.getCurricula()));
+//		Nutritionist nutritionist = nutritionistService.findByPrincipal();
+//		Assert.isTrue(c.equals(nutritionist.getCurricula()));
+		
+//		Boolean result = false;
+//		UserAccount recipeUser = recipe.getUser().getUserAccount();
+//		UserAccount principal = LoginService.getPrincipal();
+//		if(recipeUser.equals(principal)){
+//			
+//			result = true;
+//		}
+//		
+//		return result;
+		
+		Boolean result = false;
+		UserAccount nutritionistUser = c.getNutritionist().getUserAccount();
+		UserAccount principal = LoginService.getPrincipal();
+		if(nutritionistUser.equals(principal)){
+			result = true;
+		}
+		return result;
 	}
 
 	//Our other bussiness methods
