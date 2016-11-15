@@ -1,5 +1,7 @@
 package services;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,11 @@ public class QuantityService {
 		
 		quantityRepository.delete(quantity);
 		
+	}
+	
+	public Collection<Quantity> findAll(){
+		
+		return quantityRepository.findAll();
 	}
 	
 	//Our other Bussiness methods
